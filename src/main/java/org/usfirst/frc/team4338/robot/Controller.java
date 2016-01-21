@@ -6,29 +6,29 @@ package org.usfirst.frc.team4338.robot;
 import edu.wpi.first.wpilibj.DriverStation;
 
 /**
- * @author Falcon Robotics
- *
+ * The controller used to control the robot.
+ * The variables in this class are configured for Logitech controllers.
  */
 public class Controller {
-	private DriverStation DS;
+	private DriverStation ds;
 	private final int port;
 	
 	/**
-	 * 
-	 * @param port
+	 * Creates a controller at the given port.
+	 * @param port the port
 	 */
-	public Controller(int port){
-		DS = DriverStation.getInstance();
+	public Controller(int port) {
+		ds = DriverStation.getInstance();
 		this.port = port;
 	}
 	
 	/**
-	 * 
-	 * @param axis
-	 * @return
+	 * Gets the value of a given axis on the set port.
+	 * @param axis the axis
+	 * @return the value
 	 */
 	public double getRawAxis(int axis) {
-		return DS.getStickAxis(port, axis);
+		return ds.getStickAxis(port, axis);
 	}
 	
 	/**
@@ -37,7 +37,7 @@ public class Controller {
 	 * @return
 	 */
 	public boolean getRawButton(int button) {
-		return ((0x1 << (button - 1)) & DS.getStickButtons(port)) != 0;
+		return ((0x1 << (button - 1)) & ds.getStickButtons(port)) != 0;
 	}
 	
 	/**
@@ -45,7 +45,7 @@ public class Controller {
 	 * @return
 	 */
 	public int getPOV(){
-		return DS.getStickPOV(port, 0);
+		return ds.getStickPOV(port, 0);
 	}
 	
 	public boolean getButtonA() {
