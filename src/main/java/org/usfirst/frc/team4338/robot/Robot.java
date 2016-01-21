@@ -1,9 +1,25 @@
 package org.usfirst.frc.team4338.robot;
 
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 
 public class Robot extends IterativeRobot {
+	private CameraServer server;
+	
+	/**
+	 * 
+	 */
+	public Robot(){
+		server = CameraServer.getInstance();
+		server.setQuality(50);
+		server.startAutomaticCapture("cam0");
+	}
 
+	@Override
+	public void robotInit() {
+		super.robotInit();
+	}
+	
 	@Override
 	public void autonomousInit() {
 		super.autonomousInit();
@@ -22,11 +38,6 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void disabledPeriodic() {
 		super.disabledPeriodic();
-	}
-
-	@Override
-	public void robotInit() {
-		super.robotInit();
 	}
 	
 	@Override
