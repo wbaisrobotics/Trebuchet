@@ -6,11 +6,11 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
 
 public class Robot extends IterativeRobot {
+	// Controls
 	private Controller controller;
 
 	// Motors
 	private RobotDrive drive;
-	// Controls
 	private Joystick leftJoystick;
 	private Joystick rightJoystick;
 
@@ -18,55 +18,74 @@ public class Robot extends IterativeRobot {
 	private CameraServer server;
 
 	/**
-	 * 
+	 * The robot for the competition.
 	 */
 	public Robot() {
 		super();
+
+		// Set up vision
+		server = CameraServer.getInstance();
+		server.setQuality(50);
+		server.startAutomaticCapture("cam0");
+
+		// Set up controls
+		leftJoystick = new Joystick(0);
+		rightJoystick = new Joystick(1);
+		controller = new Controller(2);
+
+		// Set up drive
+		drive = new RobotDrive(1, 2);
 	}
 
+	/**
+	 * Initialization code for autonomous mode. This method is called each time
+	 * the robot enters autonomous mode.
+	 */
 	@Override
 	public void autonomousInit() {
 		super.autonomousInit();
 	}
 
+	/**
+	 * Periodic code for autonomous mode. This method is called periodically at
+	 * a regular rate while the robot is in autonomous mode.
+	 */
 	@Override
 	public void autonomousPeriodic() {
 		super.autonomousPeriodic();
 	}
 
+	/**
+	 * Initialization code for disabled mode. This method is called each time
+	 * the robot enters disabled mode.
+	 */
 	@Override
 	public void disabledInit() {
 		super.disabledInit();
 	}
 
+	/**
+	 * Periodic code for disabled mode. This method is called periodically at a
+	 * regular rate while the robot is in disabled mode.
+	 */
 	@Override
 	public void disabledPeriodic() {
 		super.disabledPeriodic();
 	}
 
-	@Override
-	public void robotInit() {
-		super.robotInit();
-
-		// Setup vision
-		server = CameraServer.getInstance();
-		server.setQuality(50);
-		server.startAutomaticCapture("cam0");
-
-		// Setup controls
-		leftJoystick = new Joystick(0);
-		rightJoystick = new Joystick(1);
-		controller = new Controller(2);
-
-		// Setup drive
-		drive = new RobotDrive(1, 2);
-	}
-
+	/**
+	 * Initialization code for teleop mode. This method is called each time the
+	 * robot enters teleop mode.
+	 */
 	@Override
 	public void teleopInit() {
 		super.teleopInit();
 	}
 
+	/**
+	 * Periodic code for teleop mode. This method is called periodically at a
+	 * regular rate while the robot is in teleop mode.
+	 */
 	@Override
 	public void teleopPeriodic() {
 		super.teleopPeriodic();
@@ -74,11 +93,19 @@ public class Robot extends IterativeRobot {
 		// drive.tankDrive(leftJoystick.getY(), rightJoystick.getY());
 	}
 
+	/**
+	 * Initialization code for test mode. This method is called each time the
+	 * robot enters test mode.
+	 */
 	@Override
 	public void testInit() {
 		super.testInit();
 	}
 
+	/**
+	 * Periodic code for test mode. This method is called periodically at a
+	 * regular rate while the robot is in test mode.
+	 */
 	@Override
 	public void testPeriodic() {
 		super.testPeriodic();
