@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.Timer;
 
 public class Robot extends IterativeRobot {
 	// Controls
@@ -16,6 +17,9 @@ public class Robot extends IterativeRobot {
 
 	// Vision
 	private CameraServer server;
+	
+	//Utility
+	private Timer timer;
 
 	/**
 	 * The robot for the competition.
@@ -35,6 +39,8 @@ public class Robot extends IterativeRobot {
 
 		// Set up drive
 		drive = new RobotDrive(1, 2);
+		
+		timer = new Timer();
 	}
 
 	/**
