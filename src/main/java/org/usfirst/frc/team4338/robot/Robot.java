@@ -44,6 +44,15 @@ public class Robot extends IterativeRobot {
 	}
 
 	/**
+	 * Initialization code first boot of robot.
+	 * This method is called when the robot is turned on.
+	 */
+	@Override
+	public void robotInit(){
+		super.robotInit();
+	}
+
+	/**
 	 * Initialization code for autonomous mode. This method is called each time
 	 * the robot enters autonomous mode.
 	 */
