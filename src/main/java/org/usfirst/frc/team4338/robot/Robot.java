@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4338.robot;
 
 import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends IterativeRobot {
 	// Controls
@@ -50,6 +51,9 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotInit(){
 		super.robotInit();
+
+		SmartDashboard.putNumber("left servo angle", leftGearShiftServo.getAngle());
+		SmartDashboard.putNumber("right servo angle", rightGearShiftServo.getAngle());
 	}
 
 	/**
