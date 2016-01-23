@@ -25,43 +25,43 @@ public class Controller {
 	}
 
 	public boolean getButtonA() {
-		return getRawButton(1);
+		return getRawButton(0);
 	}
 
 	public boolean getButtonB() {
-		return getRawButton(2);
+		return getRawButton(1);
 	}
 
 	public boolean getButtonBack() {
-		return getRawButton(7);
-	}
-
-	public boolean getButtonLB() {
-		return getRawButton(5);
-	}
-
-	public boolean getButtonLS() {
-		return getRawButton(9);
-	}
-
-	public boolean getButtonRB() {
 		return getRawButton(6);
 	}
 
-	public boolean getButtonRS() {
-		return getRawButton(10);
+	public boolean getButtonLB() {
+		return getRawButton(4);
 	}
 
-	public boolean getButtonStart() {
+	public boolean getButtonLS() {
 		return getRawButton(8);
 	}
 
+	public boolean getButtonRB() {
+		return getRawButton(5);
+	}
+
+	public boolean getButtonRS() {
+		return getRawButton(9);
+	}
+
+	public boolean getButtonStart() {
+		return getRawButton(7);
+	}
+
 	public boolean getButtonX() {
-		return getRawButton(3);
+		return getRawButton(2);
 	}
 
 	public boolean getButtonY() {
-		return getRawButton(4);
+		return getRawButton(3);
 	}
 
 	public double getLeftJoyX() {
@@ -101,7 +101,7 @@ public class Controller {
 	 * @return
 	 */
 	public boolean getRawButton(int button) {
-		return ((0x1 << (button - 1)) & ds.getStickButtons(port)) != 0;
+		return ((1 << button) & ds.getStickButtons(port)) != 0;
 	}
 
 	public double getRightJoyX() {
