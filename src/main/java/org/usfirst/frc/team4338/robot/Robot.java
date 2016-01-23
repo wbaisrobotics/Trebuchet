@@ -17,7 +17,7 @@ public class Robot extends IterativeRobot {
 
 	// Vision
 	private CameraServer server;
-	
+
 	// Utility
 	private Timer timer;
 
@@ -39,7 +39,7 @@ public class Robot extends IterativeRobot {
 
 		// Set up drive
 		drive = new RobotDrive(1, 2);
-		
+
 		timer = new Timer();
 	}
 
