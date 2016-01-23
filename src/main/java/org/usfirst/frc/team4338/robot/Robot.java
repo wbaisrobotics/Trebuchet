@@ -150,11 +150,14 @@ public class Robot extends IterativeRobot {
 		Image binaryFrame = camera.getBinaryFrame();
 		for (int i = 0; i < numParticles; i++)
 			reports.add(new Particle(binaryFrame, i).createReport());
-
-		Collections.sort(reports);
-		ScoringResult score = new ScoringResult(reports.get(0));
-
-		return score.getAspectScore() >= MIN_SCORE && score.getAreaScore() >= MIN_SCORE;
+		
+		for (ParticleReport report : reports) {
+			ScoringResult result = new ScoringResult(report);
+			if (result.getAspectScore() >= MIN_SCORE && result.getAreaScore() >= MIN_SCORE)
+				return true;
+		}
+		
+		return false;
 	}
 
 }
