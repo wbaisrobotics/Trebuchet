@@ -1,5 +1,20 @@
 package org.usfirst.frc.team4338.robot;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import org.usfirst.frc.team4338.robot.vision.Camera;
+import org.usfirst.frc.team4338.robot.vision.Particle;
+import org.usfirst.frc.team4338.robot.vision.ParticleReport;
+import org.usfirst.frc.team4338.robot.vision.ScoringResult;
+import org.usfirst.frc.team4338.robot.vision.TapeTarget;
+import org.usfirst.frc.team4338.robot.vision.Target;
+
+import com.ni.vision.NIVision;
+import com.ni.vision.NIVision.ColorMode;
+import com.ni.vision.NIVision.Image;
+
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
@@ -7,6 +22,8 @@ import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Timer;
 
 public class Robot extends IterativeRobot {
+	private static final double MIN_SCORE = 75d;
+	
 	// Controls
 	private Controller controller;
 
@@ -17,6 +34,7 @@ public class Robot extends IterativeRobot {
 
 	// Vision
 	private CameraServer server;
+	private Camera camera;
 
 	// Utility
 	private Timer timer;
@@ -28,6 +46,7 @@ public class Robot extends IterativeRobot {
 		super();
 
 		// Set up vision
+		camera = new Camera(Camera.DEFAULT_VIEW_ANGLE);
 		server = CameraServer.getInstance();
 		server.setQuality(50);
 		server.startAutomaticCapture("cam0");
@@ -115,6 +134,27 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void testPeriodic() {
 		super.testPeriodic();
+	}
+
+	private boolean targetVisible() {
+		Target target = new TapeTarget();
+		NIVision.imaqColorThreshold(camera.getBinaryFrame(), camera.getImage(), 255, ColorMode.HSV,
+				target.getHueRange(), target.getSatRange(), target.getValRange());
+		CameraServer.getInstance().setImage(camera.getBinaryFrame());
+		int numParticles = NIVision.imaqCountParticles(camera.getBinaryFrame(), 1);
+
+		if (numParticles == 0)
+			return false;
+
+		List<ParticleReport> reports = new ArrayList<ParticleReport>();
+		Image binaryFrame = camera.getBinaryFrame();
+		for (int i = 0; i < numParticles; i++)
+			reports.add(new Particle(binaryFrame, i).createReport());
+
+		Collections.sort(reports);
+		ScoringResult score = new ScoringResult(reports.get(0));
+
+		return score.getAspectScore() >= MIN_SCORE && score.getAreaScore() >= MIN_SCORE;
 	}
 
 }
