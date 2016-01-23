@@ -18,7 +18,7 @@ public class Robot extends IterativeRobot {
 	// Vision
 	private CameraServer server;
 	
-	//Utility
+	// Utility
 	private Timer timer;
 
 	/**
