@@ -20,17 +20,20 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends IterativeRobot {
 	private static final double MIN_SCORE = 75d;
 	
 	// Controls
+	private Joystick leftJoystick;
+	private Joystick rightJoystick;
 	private Controller controller;
 
 	// Motors
 	private RobotDrive drive;
-	private Joystick leftJoystick;
-	private Joystick rightJoystick;
+	private Servo leftGearShiftServo;
+	private Servo rightGearShiftServo;
 
 	// Vision
 	private CameraServer server;
@@ -56,10 +59,25 @@ public class Robot extends IterativeRobot {
 		rightJoystick = new Joystick(1);
 		controller = new Controller(2);
 
-		// Set up drive
+		// Set up motors
 		drive = new RobotDrive(1, 2);
 
+		leftGearShiftServo = new Servo(3);
+		rightGearShiftServo = new Servo(4);
+
 		timer = new Timer();
+	}
+
+	/**
+	 * Initialization code first boot of robot.
+	 * This method is called when the robot is turned on.
+	 */
+	@Override
+	public void robotInit(){
+		super.robotInit();
+
+		SmartDashboard.putNumber("left servo angle", leftGearShiftServo.getAngle());
+		SmartDashboard.putNumber("right servo angle", rightGearShiftServo.getAngle());
 	}
 
 	/**
@@ -115,7 +133,14 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		super.teleopPeriodic();
 
-		// drive.tankDrive(leftJoystick.getY(), rightJoystick.getY());
+		//Shift to lower gear
+		if(leftJoystick.getTrigger() && rightJoystick.getTrigger()){
+
+		} else{
+
+		}
+
+		drive.tankDrive(leftJoystick.getY(), rightJoystick.getY());
 	}
 
 	/**
