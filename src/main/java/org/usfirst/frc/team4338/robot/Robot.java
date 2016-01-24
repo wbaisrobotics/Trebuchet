@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends IterativeRobot {
 	private static final double MIN_SCORE = 75d;
+	private static final int PERIODIC_DELAY = 5;
 
 	// Controls
 	private Joystick leftJoystick;
@@ -33,9 +34,6 @@ public class Robot extends IterativeRobot {
 
 	// Vision
 	private Camera camera;
-
-	// Utility
-	private Timer timer;
 
 	/**
 	 * The robot for the competition.
@@ -56,8 +54,6 @@ public class Robot extends IterativeRobot {
 		shooter = new Victor(4);
 		leftGearShiftServo = new Servo(2);
 		rightGearShiftServo = new Servo(3);
-
-		timer = new Timer();
 	}
 
 	/**
@@ -158,6 +154,8 @@ public class Robot extends IterativeRobot {
 		shooter.set(controller.getRightJoyY());
 
 		drive.tankDrive(leftJoystick.getY(), rightJoystick.getY());
+		
+		Timer.delay((double) PERIODIC_DELAY / 1000);
 	}
 
 	/**
