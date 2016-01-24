@@ -70,7 +70,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		super.autonomousInit();
+		// TODO
 	}
 
 	/**
@@ -79,7 +79,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
-		super.autonomousPeriodic();
+		// TODO
 	}
 
 	/**
@@ -88,7 +88,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void disabledInit() {
-		super.disabledInit();
+		// TODO
 	}
 
 	/**
@@ -97,7 +97,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void disabledPeriodic() {
-		super.disabledPeriodic();
+		// TODO
 	}
 
 	/**
@@ -106,12 +106,10 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
-		super.robotInit();
+		// TODO
 	}
 
 	private boolean targetVisible() {
-		boolean visible = false;
-
 		Target target = new TapeTarget();
 		NIVision.imaqColorThreshold(camera.getBinaryFrame(), camera.getImage(), 255, ColorMode.HSV,
 				target.getHueRange(), target.getSatRange(), target.getValRange());
@@ -123,6 +121,7 @@ public class Robot extends IterativeRobot {
 		for (int i = 0; i < numParticles; i++)
 			reports.add(new Particle(binaryFrame, i).createReport());
 
+		boolean visible = false;
 		for (ParticleReport report : reports) {
 			ScoringResult result = new ScoringResult(report);
 			if (result.getAspectScore() >= MIN_SCORE && result.getAreaScore() >= MIN_SCORE)
@@ -138,7 +137,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopInit() {
-		super.teleopInit();
+		// TODO
 	}
 
 	/**
@@ -147,8 +146,6 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-		super.teleopPeriodic();
-		
 		SmartDashboard.putBoolean("Target visible", targetVisible());
 		SmartDashboard.putNumber("Left servo angle", leftGearShiftServo.getAngle());
 		SmartDashboard.putNumber("Right servo angle", rightGearShiftServo.getAngle());
@@ -169,7 +166,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void testInit() {
-		super.testInit();
+		// TODO
 	}
 
 	/**
@@ -178,7 +175,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void testPeriodic() {
-		super.testPeriodic();
+		// TODO
 	}
 
 }
