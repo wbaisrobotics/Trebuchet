@@ -32,7 +32,6 @@ public class Robot extends IterativeRobot {
 	private Servo rightGearShiftServo;
 
 	// Vision
-	private CameraServer server;
 	private Camera camera;
 
 	// Utility
