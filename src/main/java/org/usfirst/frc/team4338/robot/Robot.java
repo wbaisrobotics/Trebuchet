@@ -1,7 +1,6 @@
 package org.usfirst.frc.team4338.robot;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import org.usfirst.frc.team4338.robot.vision.Camera;
@@ -25,7 +24,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends IterativeRobot {
 	private static final double MIN_SCORE = 75d;
-	
+
 	// Controls
 	private Joystick leftJoystick;
 	private Joystick rightJoystick;
@@ -70,18 +69,6 @@ public class Robot extends IterativeRobot {
 	}
 
 	/**
-	 * Initialization code first boot of robot.
-	 * This method is called when the robot is turned on.
-	 */
-	@Override
-	public void robotInit(){
-		super.robotInit();
-
-		SmartDashboard.putNumber("left servo angle", leftGearShiftServo.getAngle());
-		SmartDashboard.putNumber("right servo angle", rightGearShiftServo.getAngle());
-	}
-
-	/**
 	 * Initialization code for autonomous mode. This method is called each time
 	 * the robot enters autonomous mode.
 	 */
@@ -118,6 +105,44 @@ public class Robot extends IterativeRobot {
 	}
 
 	/**
+	 * Initialization code first boot of robot. This method is called when the
+	 * robot is turned on.
+	 */
+	@Override
+	public void robotInit() {
+		super.robotInit();
+
+		SmartDashboard.putNumber("left servo angle", leftGearShiftServo.getAngle());
+		SmartDashboard.putNumber("right servo angle", rightGearShiftServo.getAngle());
+	}
+
+	private boolean targetVisible() {
+		boolean visible = false;
+
+		Target target = new TapeTarget();
+		NIVision.imaqColorThreshold(camera.getBinaryFrame(), camera.getImage(), 255, ColorMode.HSV,
+				target.getHueRange(), target.getSatRange(), target.getValRange());
+		CameraServer.getInstance().setImage(camera.getBinaryFrame());
+		int numParticles = NIVision.imaqCountParticles(camera.getBinaryFrame(), 1);
+
+		if (numParticles == 0)
+			visible = false;
+
+		List<ParticleReport> reports = new ArrayList<ParticleReport>();
+		Image binaryFrame = camera.getBinaryFrame();
+		for (int i = 0; i < numParticles; i++)
+			reports.add(new Particle(binaryFrame, i).createReport());
+
+		for (ParticleReport report : reports) {
+			ScoringResult result = new ScoringResult(report);
+			if (result.getAspectScore() >= MIN_SCORE && result.getAreaScore() >= MIN_SCORE)
+				visible = true;
+		}
+
+		return visible;
+	}
+
+	/**
 	 * Initialization code for teleop mode. This method is called each time the
 	 * robot enters teleop mode.
 	 */
@@ -134,10 +159,10 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		super.teleopPeriodic();
 
-		//Shift to lower gear
-		if(leftJoystick.getTrigger() && rightJoystick.getTrigger()){
+		// Shift to lower gear
+		if (leftJoystick.getTrigger() && rightJoystick.getTrigger()) {
 
-		} else{
+		} else {
 
 		}
 
@@ -160,32 +185,6 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void testPeriodic() {
 		super.testPeriodic();
-	}
-
-	private boolean targetVisible() {
-		boolean visible = false;
-
-		Target target = new TapeTarget();
-		NIVision.imaqColorThreshold(camera.getBinaryFrame(), camera.getImage(), 255, ColorMode.HSV,
-				target.getHueRange(), target.getSatRange(), target.getValRange());
-		CameraServer.getInstance().setImage(camera.getBinaryFrame());
-		int numParticles = NIVision.imaqCountParticles(camera.getBinaryFrame(), 1);
-
-		if (numParticles == 0)
-			visible = false;
-
-		List<ParticleReport> reports = new ArrayList<ParticleReport>();
-		Image binaryFrame = camera.getBinaryFrame();
-		for (int i = 0; i < numParticles; i++)
-			reports.add(new Particle(binaryFrame, i).createReport());
-		
-		for (ParticleReport report : reports) {
-			ScoringResult result = new ScoringResult(report);
-			if (result.getAspectScore() >= MIN_SCORE && result.getAreaScore() >= MIN_SCORE)
-				visible = true;
-		}
-		
-		return visible;
 	}
 
 }
