@@ -163,6 +163,8 @@ public class Robot extends IterativeRobot {
 	}
 
 	private boolean targetVisible() {
+		boolean visible = false;
+
 		Target target = new TapeTarget();
 		NIVision.imaqColorThreshold(camera.getBinaryFrame(), camera.getImage(), 255, ColorMode.HSV,
 				target.getHueRange(), target.getSatRange(), target.getValRange());
@@ -170,7 +172,7 @@ public class Robot extends IterativeRobot {
 		int numParticles = NIVision.imaqCountParticles(camera.getBinaryFrame(), 1);
 
 		if (numParticles == 0)
-			return false;
+			visible = false;
 
 		List<ParticleReport> reports = new ArrayList<ParticleReport>();
 		Image binaryFrame = camera.getBinaryFrame();
@@ -180,10 +182,10 @@ public class Robot extends IterativeRobot {
 		for (ParticleReport report : reports) {
 			ScoringResult result = new ScoringResult(report);
 			if (result.getAspectScore() >= MIN_SCORE && result.getAreaScore() >= MIN_SCORE)
-				return true;
+				visible = true;
 		}
 		
-		return false;
+		return visible;
 	}
 
 }
