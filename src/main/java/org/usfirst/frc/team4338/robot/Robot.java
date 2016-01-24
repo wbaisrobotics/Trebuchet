@@ -147,14 +147,14 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		SmartDashboard.putBoolean("Target visible", targetVisible());
-		SmartDashboard.putNumber("Left servo angle", leftGearShiftServo.getAngle());
-		SmartDashboard.putNumber("Right servo angle", rightGearShiftServo.getAngle());
 
 		// Shift to lower gear
-		if (leftJoystick.getTrigger() && rightJoystick.getTrigger()) {
-			leftGearShiftServo.set(0.5);
+		if (leftJoystick.getTrigger() || rightJoystick.getTrigger()) {
+			leftGearShiftServo.setAngle(50);
+			rightGearShiftServo.setAngle(50);
 		} else {
-			leftGearShiftServo.set(0);
+			leftGearShiftServo.setAngle(110);
+			rightGearShiftServo.setAngle(110);
 		}
 
 		drive.tankDrive(leftJoystick.getY(), rightJoystick.getY());
