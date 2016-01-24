@@ -33,15 +33,18 @@ public class Camera {
 		frame = NIVision.imaqCreateImage(ImageType.IMAGE_RGB, 0);
 		binaryFrame = NIVision.imaqCreateImage(ImageType.IMAGE_U8, 0);
 	}
+	
+	public Image getFrame() {
+		return frame;
+	}
 
 	public Image getBinaryFrame() {
 		return binaryFrame;
 	}
 
-	public Image getImage() {
+	public void captureImage() {
 		NIVision.IMAQdxGrab(session, frame, 1);
 		server.setImage(frame);
-		return frame;
 	}
 
 	private void initializeVision() {

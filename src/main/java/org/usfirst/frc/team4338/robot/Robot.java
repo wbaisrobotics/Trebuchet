@@ -108,7 +108,7 @@ public class Robot extends IterativeRobot {
 
 	private boolean targetVisible() {
 		Target target = new TapeTarget();
-		NIVision.imaqColorThreshold(camera.getBinaryFrame(), camera.getImage(), 255, ColorMode.HSV,
+		NIVision.imaqColorThreshold(camera.getBinaryFrame(), camera.getFrame(), 255, ColorMode.HSV,
 				target.getHueRange(), target.getSatRange(), target.getValRange());
 		CameraServer.getInstance().setImage(camera.getBinaryFrame());
 		int numParticles = NIVision.imaqCountParticles(camera.getBinaryFrame(), 1);
@@ -143,6 +143,8 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
+		camera.captureImage();
+		
 		SmartDashboard.putBoolean("Target visible", targetVisible());
 
 		// Shift to lower gear
