@@ -122,9 +122,6 @@ public class Robot extends IterativeRobot {
 		CameraServer.getInstance().setImage(camera.getBinaryFrame());
 		int numParticles = NIVision.imaqCountParticles(camera.getBinaryFrame(), 1);
 
-		if (numParticles == 0)
-			visible = false;
-
 		List<ParticleReport> reports = new ArrayList<ParticleReport>();
 		Image binaryFrame = camera.getBinaryFrame();
 		for (int i = 0; i < numParticles; i++)
