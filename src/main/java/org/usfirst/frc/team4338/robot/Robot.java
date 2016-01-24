@@ -111,9 +111,6 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotInit() {
 		super.robotInit();
-
-		SmartDashboard.putNumber("left servo angle", leftGearShiftServo.getAngle());
-		SmartDashboard.putNumber("right servo angle", rightGearShiftServo.getAngle());
 	}
 
 	private boolean targetVisible() {
@@ -159,11 +156,14 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		super.teleopPeriodic();
 
+		SmartDashboard.putNumber("left servo angle", leftGearShiftServo.getAngle());
+		SmartDashboard.putNumber("right servo angle", rightGearShiftServo.getAngle());
+
 		// Shift to lower gear
 		if (leftJoystick.getTrigger() && rightJoystick.getTrigger()) {
-
+			leftGearShiftServo.set(0.5);
 		} else {
-
+			leftGearShiftServo.set(0);
 		}
 
 		drive.tankDrive(leftJoystick.getY(), rightJoystick.getY());
