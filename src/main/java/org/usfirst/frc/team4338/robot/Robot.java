@@ -60,10 +60,10 @@ public class Robot extends IterativeRobot {
 		controller = new Controller(2);
 
 		// Set up motors
-		drive = new RobotDrive(1, 2);
+		drive = new RobotDrive(0, 1);
 
-		leftGearShiftServo = new Servo(3);
-		rightGearShiftServo = new Servo(4);
+		leftGearShiftServo = new Servo(2);
+		rightGearShiftServo = new Servo(3);
 
 		timer = new Timer();
 	}
