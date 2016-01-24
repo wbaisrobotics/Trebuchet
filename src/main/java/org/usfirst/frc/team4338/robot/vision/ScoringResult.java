@@ -1,9 +1,9 @@
 package org.usfirst.frc.team4338.robot.vision;
 
 public class ScoringResult {
-	private ParticleReport report;
 	private double areaScore;
 	private double aspectScore;
+	private ParticleReport report;
 
 	public ScoringResult(ParticleReport report) {
 		this.report = report;

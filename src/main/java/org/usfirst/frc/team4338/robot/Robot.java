@@ -3,7 +3,6 @@ package org.usfirst.frc.team4338.robot;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.wpi.first.wpilibj.*;
 import org.usfirst.frc.team4338.robot.vision.Camera;
 import org.usfirst.frc.team4338.robot.vision.Particle;
 import org.usfirst.frc.team4338.robot.vision.ParticleReport;
@@ -15,25 +14,32 @@ import com.ni.vision.NIVision;
 import com.ni.vision.NIVision.ColorMode;
 import com.ni.vision.NIVision.Image;
 
+import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.Servo;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends IterativeRobot {
 	private static final double MIN_SCORE = 75d;
 	private static final int PERIODIC_DELAY = 5;
 
-	// Controls
-	private Joystick leftJoystick;
-	private Joystick rightJoystick;
-	private Controller controller;
-
-	// Motors
-	private RobotDrive drive;
-	private Victor shooter;
-	private Servo leftGearShiftServo;
-	private Servo rightGearShiftServo;
-
 	// Vision
 	private Camera camera;
+	private Controller controller;
+	// Motors
+	private RobotDrive drive;
+
+	private Servo leftGearShiftServo;
+	// Controls
+	private Joystick leftJoystick;
+	private Servo rightGearShiftServo;
+	private Joystick rightJoystick;
+
+	private Victor shooter;
 
 	/**
 	 * The robot for the competition.
@@ -139,22 +145,18 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		camera.captureImage();
-		
+
 		SmartDashboard.putBoolean("Target visible", targetVisible());
 
 		// Shift to lower gear
-		if (leftJoystick.getTrigger() || rightJoystick.getTrigger()) {
-			leftGearShiftServo.setAngle(50);
-			rightGearShiftServo.setAngle(50);
-		} else {
-			leftGearShiftServo.setAngle(110);
-			rightGearShiftServo.setAngle(110);
-		}
+		boolean triggersDown = leftJoystick.getTrigger() || rightJoystick.getTrigger();
+		double angle = triggersDown ? 50 : 110;
+		leftGearShiftServo.setAngle(angle);
+		rightGearShiftServo.setAngle(angle);
 
 		shooter.set(controller.getRightJoyY());
-
 		drive.tankDrive(leftJoystick.getY(), rightJoystick.getY());
-		
+
 		Timer.delay((double) PERIODIC_DELAY / 1000);
 	}
 
