@@ -50,9 +50,6 @@ public class Robot extends IterativeRobot {
 
 		// Set up vision
 		camera = new Camera(Camera.DEFAULT_VIEW_ANGLE);
-		server = CameraServer.getInstance();
-		server.setQuality(50);
-		server.startAutomaticCapture("cam0");
 
 		// Set up controls
 		leftJoystick = new Joystick(0);
@@ -61,7 +58,6 @@ public class Robot extends IterativeRobot {
 
 		// Set up motors
 		drive = new RobotDrive(0, 1);
-
 		leftGearShiftServo = new Servo(2);
 		rightGearShiftServo = new Servo(3);
 
@@ -152,9 +148,10 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		super.teleopPeriodic();
-
-		SmartDashboard.putNumber("left servo angle", leftGearShiftServo.getAngle());
-		SmartDashboard.putNumber("right servo angle", rightGearShiftServo.getAngle());
+		
+		SmartDashboard.putBoolean("Target visible", targetVisible());
+		SmartDashboard.putNumber("Left servo angle", leftGearShiftServo.getAngle());
+		SmartDashboard.putNumber("Right servo angle", rightGearShiftServo.getAngle());
 
 		// Shift to lower gear
 		if (leftJoystick.getTrigger() && rightJoystick.getTrigger()) {
