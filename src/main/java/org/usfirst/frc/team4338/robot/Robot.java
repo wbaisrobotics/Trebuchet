@@ -99,8 +99,8 @@ public class Robot extends IterativeRobot {
 	}
 
 	/**
-	 * Initialization code first boot of robot. This method is called when the
-	 * robot is turned on.
+	 * Initialization code for the first boot of the robot. This method is
+	 * called when the robot is turned on.
 	 */
 	@Override
 	public void robotInit() {
