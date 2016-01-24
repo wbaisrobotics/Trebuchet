@@ -3,6 +3,7 @@ package org.usfirst.frc.team4338.robot;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.wpi.first.wpilibj.*;
 import org.usfirst.frc.team4338.robot.vision.Camera;
 import org.usfirst.frc.team4338.robot.vision.Particle;
 import org.usfirst.frc.team4338.robot.vision.ParticleReport;
@@ -14,12 +15,6 @@ import com.ni.vision.NIVision;
 import com.ni.vision.NIVision.ColorMode;
 import com.ni.vision.NIVision.Image;
 
-import edu.wpi.first.wpilibj.CameraServer;
-import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.RobotDrive;
-import edu.wpi.first.wpilibj.Servo;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends IterativeRobot {
@@ -32,6 +27,7 @@ public class Robot extends IterativeRobot {
 
 	// Motors
 	private RobotDrive drive;
+	private Victor shooter;
 	private Servo leftGearShiftServo;
 	private Servo rightGearShiftServo;
 
@@ -58,6 +54,7 @@ public class Robot extends IterativeRobot {
 
 		// Set up motors
 		drive = new RobotDrive(0, 1);
+		shooter = new Victor(4);
 		leftGearShiftServo = new Servo(2);
 		rightGearShiftServo = new Servo(3);
 
@@ -156,6 +153,8 @@ public class Robot extends IterativeRobot {
 			leftGearShiftServo.setAngle(110);
 			rightGearShiftServo.setAngle(110);
 		}
+
+		shooter.set(controller.getRightJoyY());
 
 		drive.tankDrive(leftJoystick.getY(), rightJoystick.getY());
 	}
