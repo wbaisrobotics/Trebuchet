@@ -3,6 +3,7 @@ package org.usfirst.frc.team4338.robot;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.wpi.first.wpilibj.*;
 import org.usfirst.frc.team4338.robot.vision.Camera;
 import org.usfirst.frc.team4338.robot.vision.Particle;
 import org.usfirst.frc.team4338.robot.vision.ParticleReport;
@@ -14,13 +15,6 @@ import com.ni.vision.NIVision;
 import com.ni.vision.NIVision.ColorMode;
 import com.ni.vision.NIVision.Image;
 
-import edu.wpi.first.wpilibj.CameraServer;
-import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.RobotDrive;
-import edu.wpi.first.wpilibj.Servo;
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends IterativeRobot {
@@ -39,7 +33,11 @@ public class Robot extends IterativeRobot {
 	private Servo rightGearShiftServo;
 	private Joystick rightJoystick;
 
-	private Victor shooter;
+	//Shooting
+	private Victor shooterBelt1;
+	private Victor shooterBelt2;
+	private Victor shooterAngleMotor;
+	private DoubleSolenoid ballFlicker;
 
 	/**
 	 * The robot for the competition.
@@ -57,9 +55,15 @@ public class Robot extends IterativeRobot {
 
 		// Set up motors
 		drive = new RobotDrive(0, 1);
-		shooter = new Victor(4);
+		shooterBelt1 = new Victor(4);
+		shooterBelt2 = new Victor(5);
 		leftGearShiftServo = new Servo(2);
 		rightGearShiftServo = new Servo(3);
+		shooterAngleMotor = new Victor(6);
+
+		// Set up solenoid
+		ballFlicker = new DoubleSolenoid(7, 8);
+		ballFlicker.set(DoubleSolenoid.Value.kReverse);
 	}
 
 	/**
@@ -154,10 +158,32 @@ public class Robot extends IterativeRobot {
 		leftGearShiftServo.setAngle(angle);
 		rightGearShiftServo.setAngle(angle);
 
-		shooter.set(controller.getRightJoyY());
 		drive.tankDrive(leftJoystick.getY(), rightJoystick.getY());
 
 		Timer.delay((double) PERIODIC_DELAY / 1000);
+
+		//DO WE WANT GEAR TOGGLE METHOD??????? more modularization plzzzzz
+
+		if (controller.getButtonA()) {
+			//Creep / Angle
+			leftGearShiftServo.setAngle(50);
+			rightGearShiftServo.setAngle(50);
+			drive.tankDrive(VAL, VAL);
+			//TOGGLE SHOOTER ANGLE
+			if (COLOR CHANGE OF FLOOR) {
+				drive.tankDrive(0, 0);
+			}
+
+			//Spin up belts
+			shooterBelt1.set(1);
+			shooterBelt2.set(1);
+			Timer.delay(2);
+
+			//Shoot
+			ballFlicker.set(DoubleSolenoid.Value.kForward);
+			Timer.delay(0.5);
+			ballFlicker.set(DoubleSolenoid.Value.kReverse);
+		}
 	}
 
 	/**
