@@ -152,11 +152,9 @@ public class Robot extends IterativeRobot {
 
 		SmartDashboard.putBoolean("Target visible", targetVisible());
 
-		// Shift to lower gear
+		// Shift to high gear if either joystick trigger is pulled
 		boolean triggersDown = leftJoystick.getTrigger() || rightJoystick.getTrigger();
-		double angle = triggersDown ? 50 : 110;
-		leftGearShiftServo.setAngle(angle);
-		rightGearShiftServo.setAngle(angle);
+		shiftGear(triggersDown ? 1 : 0);
 
 		drive.tankDrive(leftJoystick.getY(), rightJoystick.getY());
 
@@ -166,8 +164,7 @@ public class Robot extends IterativeRobot {
 
 		if (controller.getButtonA()) {
 			// Creep / Angle
-			leftGearShiftServo.setAngle(50);
-			rightGearShiftServo.setAngle(50);
+			shiftGear(1);
 			// drive.tankDrive(VAL, VAL);
 			
 			// Toggle shooter angle
@@ -185,6 +182,20 @@ public class Robot extends IterativeRobot {
 			ballFlicker.set(DoubleSolenoid.Value.kReverse);
 			shooterBelt1.set(0);
 			shooterBelt2.set(0);
+		}
+	}
+
+	/**
+	 * Shifts the tank drive into a low(fast) gear or a high(slow) gear with a 0 or 1 toggle respectively.
+	 * @param state
+     */
+	private void shiftGear(int state){
+		if(state == 0){
+			leftGearShiftServo.setAngle(110);
+			rightGearShiftServo.setAngle(110);
+		} else if(state == 1){
+			leftGearShiftServo.setAngle(50);
+			rightGearShiftServo.setAngle(50);
 		}
 	}
 
