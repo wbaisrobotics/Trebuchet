@@ -33,7 +33,7 @@ public class Robot extends IterativeRobot {
 	private Servo rightGearShiftServo;
 	private Joystick rightJoystick;
 
-	//Shooting
+	// Shooting
 	private Victor shooterBelt1;
 	private Victor shooterBelt2;
 	private Victor shooterAngleMotor;
@@ -162,24 +162,24 @@ public class Robot extends IterativeRobot {
 
 		Timer.delay((double) PERIODIC_DELAY / 1000);
 
-		//DO WE WANT GEAR TOGGLE METHOD??????? more modularization plzzzzz
+		// TODO Create gear toggle method
 
 		if (controller.getButtonA()) {
-			//Creep / Angle
+			// Creep / Angle
 			leftGearShiftServo.setAngle(50);
 			rightGearShiftServo.setAngle(50);
-			drive.tankDrive(VAL, VAL);
-			//TOGGLE SHOOTER ANGLE
-			if (COLOR CHANGE OF FLOOR) {
-				drive.tankDrive(0, 0);
-			}
+			// drive.tankDrive(VAL, VAL);
+			
+			// Toggle shooter angle
+			// If the color of the floor changes
+			drive.tankDrive(0, 0);
 
-			//Spin up belts
+			// Spin up belts
 			shooterBelt1.set(1);
 			shooterBelt2.set(1);
 			Timer.delay(2);
 
-			//Shoot
+			// Shoot
 			ballFlicker.set(DoubleSolenoid.Value.kForward);
 			Timer.delay(0.5);
 			ballFlicker.set(DoubleSolenoid.Value.kReverse);
