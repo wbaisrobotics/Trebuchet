@@ -181,8 +181,10 @@ public class Robot extends IterativeRobot {
 
 			// Shoot
 			ballFlicker.set(DoubleSolenoid.Value.kForward);
-			Timer.delay(0.5);
+			Timer.delay(1);
 			ballFlicker.set(DoubleSolenoid.Value.kReverse);
+			shooterBelt1.set(0);
+			shooterBelt2.set(0);
 		}
 	}
 
