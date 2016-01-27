@@ -160,8 +160,6 @@ public class Robot extends IterativeRobot {
 
 		Timer.delay((double) PERIODIC_DELAY / 1000);
 
-		// TODO Create gear toggle method
-
 		if (controller.getButtonA()) {
 			// Creep / Angle
 			shiftGear(1);
