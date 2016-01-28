@@ -1,21 +1,14 @@
 package org.usfirst.frc.team4338.robot;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import edu.wpi.first.wpilibj.*;
-import org.usfirst.frc.team4338.robot.vision.Camera;
-import org.usfirst.frc.team4338.robot.vision.Particle;
-import org.usfirst.frc.team4338.robot.vision.ParticleReport;
-import org.usfirst.frc.team4338.robot.vision.ScoringResult;
-import org.usfirst.frc.team4338.robot.vision.TapeTarget;
-import org.usfirst.frc.team4338.robot.vision.Target;
-
 import com.ni.vision.NIVision;
 import com.ni.vision.NIVision.ColorMode;
 import com.ni.vision.NIVision.Image;
-
+import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.usfirst.frc.team4338.robot.vision.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Robot extends IterativeRobot {
 	private static final double MIN_SCORE = 75d;
@@ -24,6 +17,7 @@ public class Robot extends IterativeRobot {
 	// Vision
 	private Camera camera;
 	private Controller controller;
+
 	// Motors
 	private RobotDrive drive;
 
@@ -38,6 +32,8 @@ public class Robot extends IterativeRobot {
 	private Victor shooterBelt2;
 	private Victor shooterAngleMotor;
 	private DoubleSolenoid ballFlicker;
+
+	private AnalogGyro gyro;
 
 	/**
 	 * The robot for the competition.
@@ -64,6 +60,8 @@ public class Robot extends IterativeRobot {
 		// Set up solenoid
 		ballFlicker = new DoubleSolenoid(7, 8);
 		ballFlicker.set(DoubleSolenoid.Value.kReverse);
+
+		gyro = new AnalogGyro(0);
 	}
 
 	/**
@@ -73,6 +71,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		// TODO
+		gyro.reset();
 	}
 
 	/**
@@ -140,6 +139,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopInit() {
 		// TODO
+		gyro.reset();
 	}
 
 	/**
