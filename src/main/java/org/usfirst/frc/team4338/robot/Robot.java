@@ -33,7 +33,10 @@ public class Robot extends IterativeRobot {
 	private Victor shooterAngleMotor;
 	private DoubleSolenoid ballFlicker;
 
+	//Gyro
 	private AnalogGyro gyro;
+	private double kp = 0.03;
+	private double angle;
 
 	/**
 	 * The robot for the competition.
@@ -51,6 +54,7 @@ public class Robot extends IterativeRobot {
 
 		// Set up motors
 		drive = new RobotDrive(0, 1);
+		drive.setExpiration(0.1);
 		shooterBelt1 = new Victor(4);
 		shooterBelt2 = new Victor(5);
 		leftGearShiftServo = new Servo(2);
@@ -151,6 +155,8 @@ public class Robot extends IterativeRobot {
 		camera.captureImage();
 
 		SmartDashboard.putBoolean("Target visible", targetVisible());
+
+		angle = gyro.getAngle();
 
 		// Shift to high gear if either joystick trigger is pulled
 		boolean triggersDown = leftJoystick.getTrigger() || rightJoystick.getTrigger();
