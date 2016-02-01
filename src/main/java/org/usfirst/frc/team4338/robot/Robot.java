@@ -1,25 +1,46 @@
 package org.usfirst.frc.team4338.robot;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.usfirst.frc.team4338.robot.vision.Camera;
+import org.usfirst.frc.team4338.robot.vision.Particle;
+import org.usfirst.frc.team4338.robot.vision.ParticleReport;
+import org.usfirst.frc.team4338.robot.vision.ScoringResult;
+import org.usfirst.frc.team4338.robot.vision.TapeTarget;
+import org.usfirst.frc.team4338.robot.vision.Target;
+
 import com.ni.vision.NIVision;
 import com.ni.vision.NIVision.ColorMode;
 import com.ni.vision.NIVision.Image;
-import edu.wpi.first.wpilibj.*;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import org.usfirst.frc.team4338.robot.vision.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import edu.wpi.first.wpilibj.AnalogGyro;
+import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.Servo;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.Victor;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends IterativeRobot {
 	private static final double MIN_SCORE = 75d;
 	private static final int PERIODIC_DELAY = 5;
 
+	private double angle;
+	private DoubleSolenoid ballFlicker;
+
 	// Vision
 	private Camera camera;
-	private Controller controller;
 
+	private Controller controller;
 	// Motors
 	private RobotDrive drive;
+	// Gyro
+	private AnalogGyro gyro;
+	private double kp = 0.03;
 
 	private Servo leftGearShiftServo;
 	// Controls
@@ -27,16 +48,10 @@ public class Robot extends IterativeRobot {
 	private Servo rightGearShiftServo;
 	private Joystick rightJoystick;
 
+	private Victor shooterAngleMotor;
 	// Shooting
 	private Victor shooterBelt1;
 	private Victor shooterBelt2;
-	private Victor shooterAngleMotor;
-	private DoubleSolenoid ballFlicker;
-
-	//Gyro
-	private AnalogGyro gyro;
-	private double kp = 0.03;
-	private double angle;
 
 	/**
 	 * The robot for the competition.
@@ -54,7 +69,7 @@ public class Robot extends IterativeRobot {
 
 		// Set up motors
 		drive = new RobotDrive(0, 1);
-		drive.setExpiration(0.1);
+		drive.setExpiration(.1);
 		shooterBelt1 = new Victor(4);
 		shooterBelt2 = new Victor(5);
 		leftGearShiftServo = new Servo(2);
@@ -114,6 +129,22 @@ public class Robot extends IterativeRobot {
 		// TODO
 	}
 
+	/**
+	 * Shifts the tank drive into a low (fast) gear or a high (slow) gear with a
+	 * 0 or 1 toggle respectively.
+	 * 
+	 * @param state
+	 */
+	private void shiftGear(int state) {
+		if (state == 0) {
+			leftGearShiftServo.setAngle(110);
+			rightGearShiftServo.setAngle(110);
+		} else if (state == 1) {
+			leftGearShiftServo.setAngle(50);
+			rightGearShiftServo.setAngle(50);
+		}
+	}
+
 	private boolean targetVisible() {
 		Target target = new TapeTarget();
 		NIVision.imaqColorThreshold(camera.getBinaryFrame(), camera.getFrame(), 255, ColorMode.HSV,
@@ -170,7 +201,7 @@ public class Robot extends IterativeRobot {
 			// Creep / Angle
 			shiftGear(1);
 			// drive.tankDrive(VAL, VAL);
-			
+
 			// Toggle shooter angle
 			// If the color of the floor changes
 			drive.tankDrive(0, 0);
@@ -186,20 +217,6 @@ public class Robot extends IterativeRobot {
 			ballFlicker.set(DoubleSolenoid.Value.kReverse);
 			shooterBelt1.set(0);
 			shooterBelt2.set(0);
-		}
-	}
-
-	/**
-	 * Shifts the tank drive into a low(fast) gear or a high(slow) gear with a 0 or 1 toggle respectively.
-	 * @param state
-     */
-	private void shiftGear(int state){
-		if(state == 0){
-			leftGearShiftServo.setAngle(110);
-			rightGearShiftServo.setAngle(110);
-		} else if(state == 1){
-			leftGearShiftServo.setAngle(50);
-			rightGearShiftServo.setAngle(50);
 		}
 	}
 
