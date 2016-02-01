@@ -2,6 +2,7 @@ package org.usfirst.frc.team4338.robot;
 
 import org.usfirst.frc.team4338.robot.vision.Camera;
 import org.usfirst.frc.team4338.robot.vision.TapeTarget;
+import org.usfirst.frc.team4338.robot.vision.VisionThread;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -11,7 +12,6 @@ import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.Victor;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends IterativeRobot {
 	private static final long PERIODIC_DELAY = 5;
@@ -31,6 +31,7 @@ public class Robot extends IterativeRobot {
 	private Victor shooterBelt1;
 	private Victor shooterBelt2;
 	private TapeTarget target;
+	private Thread visionThread;
 
 	/**
 	 * The robot for the competition.
@@ -60,6 +61,8 @@ public class Robot extends IterativeRobot {
 		ballFlicker.set(DoubleSolenoid.Value.kReverse);
 
 		gyro = new AnalogGyro(0);
+		target = new TapeTarget();
+		visionThread = new Thread(new VisionThread(camera, target));
 	}
 
 	/**
@@ -142,7 +145,8 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		camera.captureImage();
 
-		SmartDashboard.putBoolean("Target visible", target.isVisible(camera));
+		if (!visionThread.isAlive())
+			visionThread.start();
 
 		angle = gyro.getAngle();
 
