@@ -2,12 +2,12 @@ package org.usfirst.frc.team4338.robot.vision;
 
 import com.ni.vision.NIVision.Range;
 
-public interface Target {
+public abstract class Target {
 
-	public Range getHueRange();
+	public abstract Range getHueRange();
 
-	public Range getSatRange();
+	public abstract Range getSatRange();
 
-	public Range getValRange();
+	public abstract Range getValRange();
 
 }

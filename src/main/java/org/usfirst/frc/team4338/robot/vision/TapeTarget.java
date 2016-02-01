@@ -2,7 +2,7 @@ package org.usfirst.frc.team4338.robot.vision;
 
 import com.ni.vision.NIVision.Range;
 
-public class TapeTarget implements Target {
+public class TapeTarget extends Target {
 	@Override
 	public Range getHueRange() {
 		return new Range(190, 260);

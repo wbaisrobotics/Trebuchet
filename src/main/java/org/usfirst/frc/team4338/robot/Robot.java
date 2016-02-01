@@ -1,21 +1,10 @@
 package org.usfirst.frc.team4338.robot;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.usfirst.frc.team4338.robot.vision.Camera;
-import org.usfirst.frc.team4338.robot.vision.Particle;
-import org.usfirst.frc.team4338.robot.vision.ParticleReport;
-import org.usfirst.frc.team4338.robot.vision.ScoringResult;
 import org.usfirst.frc.team4338.robot.vision.TapeTarget;
-import org.usfirst.frc.team4338.robot.vision.Target;
-
-import com.ni.vision.NIVision;
-import com.ni.vision.NIVision.ColorMode;
-import com.ni.vision.NIVision.Image;
+import org.usfirst.frc.team4338.robot.vision.VisionThread;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
-import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
@@ -23,34 +12,26 @@ import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.Victor;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends IterativeRobot {
-	private static final double MIN_SCORE = 75d;
-	private static final int PERIODIC_DELAY = 5;
+	private static final long PERIODIC_DELAY = 5;
 
 	private double angle;
 	private DoubleSolenoid ballFlicker;
-
-	// Vision
 	private Camera camera;
-
 	private Controller controller;
-	// Motors
 	private RobotDrive drive;
-	// Gyro
 	private AnalogGyro gyro;
-	private double kp = 0.03;
-
-	// Controls
+	private double kp = 0.03; // What's this?
 	private Servo leftGearShiftServo;
+	private Joystick leftJoystick;
 	private Servo rightGearShiftServo;
-	private Joystick driveJoystick;
-
+	private Joystick rightJoystick;
 	private Victor shooterAngleMotor;
-	// Shooting
 	private Victor shooterBelt1;
 	private Victor shooterBelt2;
+	private TapeTarget target;
+	private Thread visionThread;
 
 	/**
 	 * The robot for the competition.
@@ -79,6 +60,8 @@ public class Robot extends IterativeRobot {
 		ballFlicker.set(DoubleSolenoid.Value.kReverse);
 
 		gyro = new AnalogGyro(0);
+		target = new TapeTarget();
+		visionThread = new Thread(new VisionThread(camera, target));
 	}
 
 	/**
@@ -143,28 +126,6 @@ public class Robot extends IterativeRobot {
 		}
 	}
 
-	private boolean targetVisible() {
-		Target target = new TapeTarget();
-		NIVision.imaqColorThreshold(camera.getBinaryFrame(), camera.getFrame(), 255, ColorMode.HSV,
-				target.getHueRange(), target.getSatRange(), target.getValRange());
-		CameraServer.getInstance().setImage(camera.getBinaryFrame());
-		int numParticles = NIVision.imaqCountParticles(camera.getBinaryFrame(), 1);
-
-		List<ParticleReport> reports = new ArrayList<ParticleReport>();
-		Image binaryFrame = camera.getBinaryFrame();
-		for (int i = 0; i < numParticles; i++)
-			reports.add(new Particle(binaryFrame, i).createReport());
-
-		boolean visible = false;
-		for (ParticleReport report : reports) {
-			ScoringResult result = new ScoringResult(report);
-			if (result.getAspectScore() >= MIN_SCORE && result.getAreaScore() >= MIN_SCORE)
-				visible = true;
-		}
-
-		return visible;
-	}
-
 	/**
 	 * Initialization code for teleop mode. This method is called each time the
 	 * robot enters teleop mode.
@@ -183,7 +144,8 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		camera.captureImage();
 
-		SmartDashboard.putBoolean("Target visible", targetVisible());
+		if (!visionThread.isAlive())
+			visionThread.start();
 
 		angle = gyro.getAngle();
 
