@@ -42,11 +42,10 @@ public class Robot extends IterativeRobot {
 	private AnalogGyro gyro;
 	private double kp = 0.03;
 
-	private Servo leftGearShiftServo;
 	// Controls
-	private Joystick leftJoystick;
+	private Servo leftGearShiftServo;
 	private Servo rightGearShiftServo;
-	private Joystick rightJoystick;
+	private Joystick driveJoystick;
 
 	private Victor shooterAngleMotor;
 	// Shooting
@@ -63,9 +62,8 @@ public class Robot extends IterativeRobot {
 		camera = new Camera(Camera.DEFAULT_VIEW_ANGLE);
 
 		// Set up controls
-		leftJoystick = new Joystick(0);
-		rightJoystick = new Joystick(1);
-		controller = new Controller(2);
+		driveJoystick = new Joystick(0);
+		controller = new Controller(1);
 
 		// Set up motors
 		drive = new RobotDrive(0, 1);
@@ -190,13 +188,14 @@ public class Robot extends IterativeRobot {
 		angle = gyro.getAngle();
 
 		// Shift to high gear if either joystick trigger is pulled
-		boolean triggersDown = leftJoystick.getTrigger() || rightJoystick.getTrigger();
-		shiftGear(triggersDown ? 1 : 0);
+		shiftGear(driveJoystick.getTrigger() ? 1 : 0);
 
-		drive.tankDrive(leftJoystick.getY(), rightJoystick.getY());
+		drive.tankDrive(driveJoystick.getY() - driveJoystick.getX(), driveJoystick.getY() + driveJoystick.getX());
 
 		Timer.delay((double) PERIODIC_DELAY / 1000);
 
+		/*
+		//Commented out for now
 		if (controller.getButtonA()) {
 			// Creep / Angle
 			shiftGear(1);
@@ -218,6 +217,7 @@ public class Robot extends IterativeRobot {
 			shooterBelt1.set(0);
 			shooterBelt2.set(0);
 		}
+		*/
 	}
 
 	/**
