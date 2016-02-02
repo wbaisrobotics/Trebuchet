@@ -24,6 +24,7 @@ public class Robot extends IterativeRobot {
 	private AnalogGyro gyro;
 	private double kp = 0.03; // What's this?
 	private Servo leftGearShiftServo;
+	private Joystick driveJoystick;
 	private Joystick leftJoystick;
 	private Servo rightGearShiftServo;
 	private Joystick rightJoystick;
