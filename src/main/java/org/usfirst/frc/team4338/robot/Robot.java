@@ -31,6 +31,8 @@ public class Robot extends IterativeRobot {
 	private Victor shooterAngleMotor;
 	private Victor shooterBelt1;
 	private Victor shooterBelt2;
+	private Victor leftPushArm;
+	private Victor rightPushArm;
 	private TapeTarget target;
 	private Thread visionThread;
 
@@ -52,11 +54,14 @@ public class Robot extends IterativeRobot {
 		drive.setExpiration(.1);
 		shooterBelt1 = new Victor(4);
 		shooterBelt2 = new Victor(5);
-		leftGearShiftServo = new Servo(2);
-		rightGearShiftServo = new Servo(3);
+		leftGearShiftServo = new Servo(8);
+		rightGearShiftServo = new Servo(9);
 		shooterAngleMotor = new Victor(6);
+		leftPushArm = new Victor(2);
+		rightPushArm = new Victor(3);
 
 		// Set up solenoid
+		//Are these parameters pwm or off a pneumatic control board?
 		ballFlicker = new DoubleSolenoid(7, 8);
 		ballFlicker.set(DoubleSolenoid.Value.kReverse);
 
@@ -149,6 +154,25 @@ public class Robot extends IterativeRobot {
 			visionThread.start();
 
 		angle = gyro.getAngle();
+
+		//Side buttons on joystick to control the push arms
+		if(driveJoystick.getRawButton(6)){
+			leftPushArm.set(1);
+			rightPushArm.set(1);
+		} else if(driveJoystick.getRawButton(8)){
+			leftPushArm.set(-1);
+			rightPushArm.set(-1);
+		} else{
+			leftPushArm.set(0);
+			rightPushArm.set(0);
+		}
+		//For straightening
+		if(driveJoystick.getRawButton(7)){
+			leftPushArm.set(1);
+		}
+		if(driveJoystick.getRawButton(5)){
+			rightPushArm.set(1);
+		}
 
 		// Shift to high gear if either joystick trigger is pulled
 		shiftGear(driveJoystick.getTrigger() ? 1 : 0);
