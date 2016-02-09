@@ -155,29 +155,26 @@ public class Robot extends IterativeRobot {
 
 		angle = gyro.getAngle();
 
-		//Side buttons on joystick to control the push arms
-		if(driveJoystick.getRawButton(6)){
-			leftPushArm.set(1);
+		if(controller.getButtonRB()){
 			rightPushArm.set(1);
-		} else if(driveJoystick.getRawButton(8)){
-			leftPushArm.set(-1);
+		} else if(controller.getRightTrigger() > 0){
 			rightPushArm.set(-1);
 		} else{
-			leftPushArm.set(0);
 			rightPushArm.set(0);
 		}
-		//For straightening
-		if(driveJoystick.getRawButton(7)){
+		if(controller.getButtonLB()){
 			leftPushArm.set(1);
-		}
-		if(driveJoystick.getRawButton(5)){
-			rightPushArm.set(1);
+		} else if(controller.getLeftTrigger() > 0){
+			leftPushArm.set(-1);
+		} else{
+			leftPushArm.set(0);
 		}
 
 		// Shift to high gear if either joystick trigger is pulled
-		shiftGear(driveJoystick.getTrigger() ? 1 : 0);
+		//shiftGear(driveJoystick.getTrigger() ? 1 : 0);
 
-		drive.tankDrive(driveJoystick.getY() - driveJoystick.getX(), driveJoystick.getY() + driveJoystick.getX());
+		//drive.tankDrive(driveJoystick.getY() - driveJoystick.getX(), driveJoystick.getY() + driveJoystick.getX());
+		drive.tankDrive(controller.getRightJoyY() - controller.getRightJoyX(), controller.getRightJoyY() + controller.getRightJoyX());
 
 		Timer.delay((double) PERIODIC_DELAY / 1000);
 
