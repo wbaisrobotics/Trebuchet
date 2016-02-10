@@ -18,21 +18,14 @@ public class Claw {
     /**
      *
      */
-    public void moveLeftClaw(){
-
+    public void moveLeftClaw(double value){
+        leftClaw.set(value);
     }
 
     /**
      *
      */
-    public void moveRightClaw(){
-
-    }
-
-    /**
-     * if position is determinable
-     */
-    public void setNeutral(){
-
+    public void moveRightClaw(double value){
+        rightClaw.set(value);
     }
 }

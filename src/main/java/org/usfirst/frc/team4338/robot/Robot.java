@@ -115,17 +115,18 @@ public class Robot extends IterativeRobot {
         drive.tankDrive(0.75 * y - 0.75 * x, 0.75 * y + 0.75 * x);
 
         if(controller.getButtonRB()){
-
+            claw.moveRightClaw(1);
         } else if(controller.getRightTrigger() > 0){
-
+            claw.moveRightClaw(-1);
         } else{
+            claw.moveRightClaw(0);
         }
         if(controller.getButtonLB()){
-
+            claw.moveLeftClaw(1);
         } else if(controller.getLeftTrigger() > 0){
-
+            claw.moveLeftClaw(-1);
         } else{
-
+            claw.moveLeftClaw(0);
         }
 
         Timer.delay((double) PERIODIC_DELAY / 1000);
