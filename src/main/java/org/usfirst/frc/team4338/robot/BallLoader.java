@@ -8,6 +8,9 @@ import edu.wpi.first.wpilibj.Victor;
 public class BallLoader {
     private Victor loaderMotor;
 
+    /**
+     *
+     */
     public BallLoader(){
         loaderMotor = new Victor(7);
     }

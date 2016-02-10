@@ -25,6 +25,9 @@ public class Shooter {
     private enum Position {SQUAT, LOAD, TRAVEL, LOWSHOT, HIGHSHOT};
     private Position position;
 
+    /**
+     *
+     */
     public Shooter(){
         gyro = new AnalogGyro(2);
         topBelt = new Victor(2);

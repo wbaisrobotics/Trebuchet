@@ -15,6 +15,9 @@ public class ClimbingArm {
     private Encoder climbDistanceEncoder;
     private boolean towerClimbed;
 
+    /**
+     *
+     */
     public ClimbingArm(){
         leftArm = new Solenoid(6);
         rightArm = new Solenoid(7);
