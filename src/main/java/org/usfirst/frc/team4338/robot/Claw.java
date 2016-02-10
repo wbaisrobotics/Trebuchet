@@ -10,7 +10,9 @@ public class Claw {
     private CANTalon rightClaw;
 
     public Claw(){
-
+        //Device ID#0 reserved for easily adding new CAN devices
+        leftClaw = new CANTalon(1);
+        rightClaw = new CANTalon(2);
     }
 
     /**

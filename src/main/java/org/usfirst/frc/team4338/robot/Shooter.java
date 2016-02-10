@@ -10,18 +10,33 @@ import edu.wpi.first.wpilibj.Victor;
  */
 public class Shooter {
     private AnalogGyro gyro;
+
     private Victor topBelt;
     private Victor bottomBelt;
     private Victor leftLifter;
     private Victor rightLifter;
+
     private Servo lockingServo;
     private boolean travelLocked;
+
     private DoubleSolenoid launchingPiston;
     private boolean pistonReady;
+
     private enum Position {SQUAT, LOAD, TRAVEL, LOWSHOT, HIGHSHOT};
-    private Position position = Position.TRAVEL;
+    private Position position;
 
     public Shooter(){
+        gyro = new AnalogGyro(2);
+        topBelt = new Victor();
+        bottomBelt = new Victor();
+        leftLifter = new Victor();
+        rightLifter = new Victor();
+        lockingServo = new Servo();
+        launchingPiston = new DoubleSolenoid(0, 1);
+
+        travelLocked = true;
+        pistonReady = false;
+        position = Position.TRAVEL;
     }
 
     /**
