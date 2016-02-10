@@ -1,18 +1,45 @@
 package org.usfirst.frc.team4338.robot;
 
-import edu.wpi.first.wpilibj.AnalogGyro;
-import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.*;
 
 /**
  *
  */
 public class Robot extends IterativeRobot {
+    private static final long PERIODIC_DELAY = 5;
+
+    private Shooter shooter;
+    private BallLoader ballLoader;
+    private Claw claw;
+    private ClimbingArm climbingArm;
+
+    private RobotDrive drive;
+
+    private DoubleSolenoid leftGearShifter;
+    private DoubleSolenoid rightGearShifter;
+
+    private Controller controller;
+
     private AnalogGyro gyro;
+    private double angle;
 
     /**
      *
      */
     public Robot(){
+        shooter = new Shooter();
+        ballLoader = new BallLoader();
+        claw = new Claw();
+        climbingArm = new ClimbingArm();
+
+        drive = new RobotDrive(0, 1);
+        drive.setExpiration(0.1);
+
+        leftGearShifter = new DoubleSolenoid(2, 3);
+        rightGearShifter = new DoubleSolenoid(4, 5);
+
+        controller = new Controller(0);
+
         gyro = new AnalogGyro(1);
     }
 
@@ -79,6 +106,29 @@ public class Robot extends IterativeRobot {
     @Override
     public void teleopPeriodic() {
         // TODO
+        angle = gyro.getAngle();
+
+        double x = controller.getRightJoyX();
+        x = Math.signum(x) * Math.pow(x, 2);
+        double y = controller.getRightJoyY();
+        y = Math.signum(y) * Math.pow(y, 2);
+        drive.tankDrive(0.75 * y - 0.75 * x, 0.75 * y + 0.75 * x);
+
+        if(controller.getButtonRB()){
+
+        } else if(controller.getRightTrigger() > 0){
+
+        } else{
+        }
+        if(controller.getButtonLB()){
+
+        } else if(controller.getLeftTrigger() > 0){
+
+        } else{
+
+        }
+
+        Timer.delay((double) PERIODIC_DELAY / 1000);
     }
 
     /**

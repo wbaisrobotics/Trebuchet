@@ -27,11 +27,11 @@ public class Shooter {
 
     public Shooter(){
         gyro = new AnalogGyro(2);
-        topBelt = new Victor();
-        bottomBelt = new Victor();
-        leftLifter = new Victor();
-        rightLifter = new Victor();
-        lockingServo = new Servo();
+        topBelt = new Victor(2);
+        bottomBelt = new Victor(3);
+        leftLifter = new Victor(4);
+        rightLifter = new Victor(5);
+        lockingServo = new Servo(6);
         launchingPiston = new DoubleSolenoid(0, 1);
 
         travelLocked = true;
