@@ -109,10 +109,10 @@ public class Robot extends IterativeRobot {
         angle = gyro.getAngle();
 
         double x = controller.getRightJoyX();
-        x = Math.signum(x) * Math.pow(x, 2);
+        x = 0.75 * Math.signum(x) * Math.pow(x, 2);
         double y = controller.getRightJoyY();
-        y = Math.signum(y) * Math.pow(y, 2);
-        drive.tankDrive(0.75 * y - 0.75 * x, 0.75 * y + 0.75 * x);
+        y = 0.75 * Math.signum(y) * Math.pow(y, 2);
+        drive.tankDrive(y - x, y + x);
 
         if(controller.getButtonRB()){
             claw.moveRightClaw(1);
