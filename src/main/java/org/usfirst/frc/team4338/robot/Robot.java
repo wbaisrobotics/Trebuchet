@@ -61,25 +61,43 @@ public class Robot extends IterativeRobot {
     @Override
     public void autonomousPeriodic() {
         // TODO
-        autoMoveStraight(0.25);
+        autoMoveStraight(0.6, 2);
     }
 
     /**
-     * This autonomous method drives the robot straight with a given direction
+     * This autonomous method drives the robot straight with a given velocity
      * >0 = forward, <0 = backward, 0 = stop
-     * @param direction
+     * @param velocity
+     * @param time the amount of seconds to drive straight
      */
-    public void autoMoveStraight(double direction){
-        angle = gyro.getAngle();
+    private void autoMoveStraight(double velocity, double time){
+        double bearing = gyro.getAngle();
+        double start = Timer.getFPGATimestamp();
 
-        //drive.tankDrive(y - x, y + x);
-        drive.tankDrive(direction - angle * kp, direction + angle * kp);
+        while(Timer.getFPGATimestamp() - start < time){
+            angle = gyro.getAngle();
 
-        Timer.delay((double) PERIODIC_DELAY / 1000);
+            //drive.tankDrive(y - x, y + x);
+            drive.tankDrive(velocity - (angle - bearing) * kp, velocity + (angle - bearing) * kp);
+
+            Timer.delay((double) PERIODIC_DELAY / 1000);
+        }
+
+        drive.tankDrive(0, 0);
     }
 
-    public void autoTurn(double angle){
+    /**
+     * Turns the robot by a given angle
+     * @param angle the amount to turn
+     */
+    private void autoTurn(double angle){
+        double bearing = gyro.getAngle();
 
+        angle = gyro.getAngle();
+
+        drive.tankDrive(angle * kp, angle * kp);
+
+        Timer.delay((double) PERIODIC_DELAY / 1000);
     }
 
     /**
