@@ -27,16 +27,22 @@ public class ClimbingArm {
     }
 
     /**
-     *
+     * Deploys the arms that hook the robot to the rung on the tower
+     * Pre: The robot is roughly in position, can be hooked by driving forward after arms are
+     * fully extended.
+     * Post: The arms are both hooked on the tower rung.
      */
     public void deployArms(){
-
+        leftArm.set(true);
+        rightArm.set(true);
     }
 
     /**
      *
      */
     public void climbTower(){
-
+        leftArm.set(false);
+        rightArm.set(false);
+        //winch pulls up the robot to right distance based on encoder
     }
 }

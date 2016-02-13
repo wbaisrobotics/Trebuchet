@@ -22,6 +22,7 @@ public class Robot extends IterativeRobot {
 
     private AnalogGyro gyro;
     private double angle;
+    private double kp = 0.03;
 
     /**
      *
@@ -60,6 +61,25 @@ public class Robot extends IterativeRobot {
     @Override
     public void autonomousPeriodic() {
         // TODO
+        autoMoveStraight(0.25);
+    }
+
+    /**
+     * This autonomous method drives the robot straight with a given direction
+     * >0 = forward, <0 = backward, 0 = stop
+     * @param direction
+     */
+    public void autoMoveStraight(double direction){
+        angle = gyro.getAngle();
+
+        //drive.tankDrive(y - x, y + x);
+        drive.tankDrive(direction - angle * kp, direction + angle * kp);
+
+        Timer.delay((double) PERIODIC_DELAY / 1000);
+    }
+
+    public void autoTurn(double angle){
+
     }
 
     /**
