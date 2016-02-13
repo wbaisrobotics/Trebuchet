@@ -88,16 +88,21 @@ public class Robot extends IterativeRobot {
 
     /**
      * Turns the robot by a given angle
-     * @param angle the amount to turn
+     * @param turnAngle the amount to turn
      */
-    private void autoTurn(double angle){
+    private void autoTurn(double turnAngle){
         double bearing = gyro.getAngle();
 
-        angle = gyro.getAngle();
+        while(angle - bearing < turnAngle){
+            angle = gyro.getAngle();
 
-        drive.tankDrive(angle * kp, angle * kp);
+            //Change this
+            drive.tankDrive(angle * kp, angle * kp);
 
-        Timer.delay((double) PERIODIC_DELAY / 1000);
+            Timer.delay((double) PERIODIC_DELAY / 1000);
+        }
+
+        drive.tankDrive(0, 0);
     }
 
     /**
