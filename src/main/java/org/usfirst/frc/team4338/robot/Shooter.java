@@ -31,7 +31,7 @@ public class Shooter {
         belts = new Victor(2);
         lifters = new Victor(3);
         lockingServo = new Servo(4);
-        launchingPiston = new DoubleSolenoid(0, 1);
+        launchingPiston = new DoubleSolenoid(4, 5);
 
         travelLocked = true;
         pistonReady = false;
