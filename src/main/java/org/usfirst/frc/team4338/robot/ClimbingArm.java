@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Victor;
 
 /**
- *
+ * The two climbing arms of the robot
  */
 public class ClimbingArm {
     private Solenoid leftArm;

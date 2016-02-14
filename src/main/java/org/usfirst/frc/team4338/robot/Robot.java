@@ -3,23 +3,29 @@ package org.usfirst.frc.team4338.robot;
 import edu.wpi.first.wpilibj.*;
 
 /**
- *
+ * The main robot class.
+ * Contains the various components of the Robot
  */
 public class Robot extends IterativeRobot {
     private static final long PERIODIC_DELAY = 5;
 
+    //Robot objects
     private Shooter shooter;
     private BallLoader ballLoader;
     private Claw claw;
     private ClimbingArm climbingArm;
 
+    //Drive system
     private RobotDrive drive;
 
+    //Gear shifters
     private DoubleSolenoid leftGearShifter;
     private DoubleSolenoid rightGearShifter;
 
+    //Controller
     private Controller controller;
 
+    //Gyro stuff
     private AnalogGyro gyro;
     private double angle;
     private double kp = 0.03;

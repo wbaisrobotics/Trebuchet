@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Victor;
 
 /**
- *
+ * The shooter of the robot
  */
 public class Shooter {
     private AnalogGyro gyro;
