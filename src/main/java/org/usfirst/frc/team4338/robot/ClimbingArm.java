@@ -38,7 +38,9 @@ public class ClimbingArm {
     }
 
     /**
-     *
+     * Pulls up the robot to the desired distance with a winch motor and distance encoder.
+     * Pre: The climbing arms are both hooked on the tower rung.
+     * Post: The robot is raised to the "scaled" position.
      */
     public void climbTower(){
         leftArm.set(false);
