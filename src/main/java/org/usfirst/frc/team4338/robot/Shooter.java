@@ -11,10 +11,8 @@ import edu.wpi.first.wpilibj.Victor;
 public class Shooter {
     private AnalogGyro gyro;
 
-    private Victor topBelt;
-    private Victor bottomBelt;
-    private Victor leftLifter;
-    private Victor rightLifter;
+    private Victor belts;
+    private Victor lifters;
 
     private Servo lockingServo;
     private boolean travelLocked;
@@ -30,11 +28,9 @@ public class Shooter {
      */
     public Shooter(){
         gyro = new AnalogGyro(2);
-        topBelt = new Victor(2);
-        bottomBelt = new Victor(3);
-        leftLifter = new Victor(4);
-        rightLifter = new Victor(5);
-        lockingServo = new Servo(6);
+        belts = new Victor(2);
+        lifters = new Victor(3);
+        lockingServo = new Servo(4);
         launchingPiston = new DoubleSolenoid(0, 1);
 
         travelLocked = true;
