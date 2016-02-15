@@ -155,14 +155,32 @@ public class Robot extends IterativeRobot {
     @Override
     public void teleopPeriodic() {
         // TODO
+        drive();
+        pollInput();
+
+        Timer.delay((double) PERIODIC_DELAY / 1000);
+    }
+
+    /**
+     * Handles the driving of the robot.
+     * Takes into account if turning, uses the gyro when going straight, and
+     * projects the x and y values of the controller onto an x^2 graph to make it exponential.
+     */
+    private void drive(){
         angle = gyro.getAngle();
 
         double x = controller.getRightJoyX();
         x = 0.8 * Math.signum(x) * Math.pow(x, 2);
         double y = controller.getRightJoyY();
         y = 0.9 * Math.signum(y) * Math.pow(y, 2);
-        drive.tankDrive(y - x, y + x);
 
+        drive.tankDrive(y - x, y + x);
+    }
+
+    /**
+     * Polls the controller, etc for input and reacts accordingly
+     */
+    private void pollInput(){
         if(controller.getButtonRB()){
             claw.moveRightClaw(1);
         } else if(controller.getRightTrigger() > 0){
@@ -177,8 +195,6 @@ public class Robot extends IterativeRobot {
         } else{
             claw.moveLeftClaw(0);
         }
-
-        Timer.delay((double) PERIODIC_DELAY / 1000);
     }
 
     /**
