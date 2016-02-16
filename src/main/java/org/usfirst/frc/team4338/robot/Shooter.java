@@ -16,6 +16,7 @@ public class Shooter {
 
     private boolean travelLocked;
     private boolean pistonReady;
+    private final double lightSensorThreshold = 3200;
 
     private enum State {SQUAT, LOAD, TRAVEL, LOWSHOT, HIGHSHOT};
     private State position;
@@ -75,7 +76,8 @@ public class Shooter {
      * activate the LockingServo to the TravelLocked position and update all state variables involved.
      */
     public void travelPosition(){
-
+        //gyro position 0
+        //When light sensor value peaks above threshold
     }
 
     /**
