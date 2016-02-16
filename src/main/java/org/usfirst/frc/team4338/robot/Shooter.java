@@ -24,8 +24,8 @@ public class Shooter {
      *
      */
     public Shooter(){
-        gyro = new AnalogGyro(2);
-        lightSensor = new AnalogInput(3);
+        gyro = new AnalogGyro(1);
+        lightSensor = new AnalogInput(2);
         belts = new Victor(2);
         lifters = new Victor(3);
         leftLockingServo = new Servo(4);

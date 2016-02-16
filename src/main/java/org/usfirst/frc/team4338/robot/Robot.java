@@ -47,7 +47,7 @@ public class Robot extends IterativeRobot {
 
         controller = new Controller(0);
 
-        gyro = new AnalogGyro(1);
+        gyro = new AnalogGyro(0);
     }
 
     /**
