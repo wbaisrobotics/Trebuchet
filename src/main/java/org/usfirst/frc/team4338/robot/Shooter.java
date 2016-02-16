@@ -112,6 +112,7 @@ public class Shooter {
     public void lockForTravel(){
         leftLockingServo.setAngle(170);
         rightLockingServo.setAngle(10);
+        travelLocked = true;
     }
 
     /**
@@ -124,5 +125,6 @@ public class Shooter {
     public void unlockFromTravel(){
         leftLockingServo.setAngle(60);
         rightLockingServo.setAngle(110);
+        travelLocked = false;
     }
 }
