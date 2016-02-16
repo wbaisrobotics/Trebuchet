@@ -21,7 +21,7 @@ public class ClimbingArm {
     public ClimbingArm(){
         leftArm = new Solenoid(6);
         rightArm = new Solenoid(7);
-        winchMotor = new Victor(6);
+        winchMotor = new Victor(7);
         climbDistanceEncoder = new Encoder(0, 1, false, CounterBase.EncodingType.k4X);
         towerClimbed = false;
     }

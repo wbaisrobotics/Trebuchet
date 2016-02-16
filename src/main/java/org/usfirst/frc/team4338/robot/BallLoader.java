@@ -12,7 +12,7 @@ public class BallLoader {
      *
      */
     public BallLoader(){
-        loaderMotor = new Victor(5);
+        loaderMotor = new Victor(6);
     }
 
     /**

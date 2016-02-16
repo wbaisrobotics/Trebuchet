@@ -14,7 +14,8 @@ public class Shooter {
     private Victor belts;
     private Victor lifters;
 
-    private Servo lockingServo;
+    private Servo leftLockingServo;
+    private Servo rightLockingServo;
     private boolean travelLocked;
 
     private DoubleSolenoid launchingPiston;
@@ -30,7 +31,8 @@ public class Shooter {
         gyro = new AnalogGyro(2);
         belts = new Victor(2);
         lifters = new Victor(3);
-        lockingServo = new Servo(4);
+        leftLockingServo = new Servo(4);
+        rightLockingServo = new Servo(5);
         launchingPiston = new DoubleSolenoid(4, 5);
 
         travelLocked = true;
@@ -108,7 +110,8 @@ public class Shooter {
      * TravelLocked position, else do nothing.
      */
     public void lockForTravel(){
-
+        leftLockingServo.setAngle(170);
+        rightLockingServo.setAngle(10);
     }
 
     /**
@@ -119,6 +122,7 @@ public class Shooter {
      * TravelUnlocked position, else do nothing.
      */
     public void unlockFromTravel(){
-
+        leftLockingServo.setAngle(60);
+        rightLockingServo.setAngle(110);
     }
 }
