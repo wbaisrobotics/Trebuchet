@@ -17,8 +17,8 @@ public class Shooter {
     private boolean travelLocked;
     private boolean pistonReady;
 
-    private enum Position {SQUAT, LOAD, TRAVEL, LOWSHOT, HIGHSHOT};
-    private Position position;
+    private enum State {SQUAT, LOAD, TRAVEL, LOWSHOT, HIGHSHOT};
+    private State position;
 
     /**
      *
@@ -35,7 +35,7 @@ public class Shooter {
         travelLocked = true;
         pistonReady = false;
 
-        position = Position.TRAVEL;
+        position = State.TRAVEL;
     }
 
     /**
