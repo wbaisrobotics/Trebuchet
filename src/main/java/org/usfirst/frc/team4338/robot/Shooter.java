@@ -1,24 +1,20 @@
 package org.usfirst.frc.team4338.robot;
 
-import edu.wpi.first.wpilibj.AnalogGyro;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.Servo;
-import edu.wpi.first.wpilibj.Victor;
+import edu.wpi.first.wpilibj.*;
 
 /**
  * The shooter of the robot
  */
 public class Shooter {
     private AnalogGyro gyro;
-
+    private AnalogInput lightSensor;
     private Victor belts;
     private Victor lifters;
-
     private Servo leftLockingServo;
     private Servo rightLockingServo;
-    private boolean travelLocked;
-
     private DoubleSolenoid launchingPiston;
+
+    private boolean travelLocked;
     private boolean pistonReady;
 
     private enum Position {SQUAT, LOAD, TRAVEL, LOWSHOT, HIGHSHOT};
@@ -29,6 +25,7 @@ public class Shooter {
      */
     public Shooter(){
         gyro = new AnalogGyro(2);
+        lightSensor = new AnalogInput(3);
         belts = new Victor(2);
         lifters = new Victor(3);
         leftLockingServo = new Servo(4);
@@ -37,6 +34,7 @@ public class Shooter {
 
         travelLocked = true;
         pistonReady = false;
+
         position = Position.TRAVEL;
     }
 
