@@ -154,4 +154,28 @@ public class Shooter {
     public void debugRightLifter(double value){
         rightLifter.set(value);
     }
+
+    /**
+     * Gets the angle of the shooter gyro
+     * @return
+     */
+    public double getAngle(){
+        return gyro.getAngle();
+    }
+
+    /**
+     * Gets the intensity of light read from the light sensor
+     * @return
+     */
+    public double getLightSensorValue(){
+        return lightSensor.getValue();
+    }
+
+    /**
+     * Gets if the current light sensor value is above the threshold, meaning aligned with the LED
+     * @return
+     */
+    public boolean lightAboveThreshold(){
+        return getLightSensorValue() >= lightSensorThreshold;
+    }
 }

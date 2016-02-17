@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4338.robot;
 
 import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The main robot class.
@@ -9,7 +10,8 @@ import edu.wpi.first.wpilibj.*;
 public class Robot extends IterativeRobot {
     private static final long PERIODIC_DELAY = 5;
 
-    private boolean debugShooter = true;
+    private boolean debugMode = false;
+    private DigitalInput debugSwitch;
 
     //Robot objects
     private Shooter shooter;
@@ -36,6 +38,8 @@ public class Robot extends IterativeRobot {
      *
      */
     public Robot(){
+        debugSwitch = new DigitalInput(0);
+
         shooter = new Shooter();
         ballLoader = new BallLoader();
         claw = new Claw();
@@ -50,6 +54,15 @@ public class Robot extends IterativeRobot {
         controller = new Controller(0);
 
         gyro = new AnalogGyro(0);
+    }
+
+    /**
+     * Initialization code for the first boot of the robot. This method is
+     * called when the robot is turned on.
+     */
+    @Override
+    public void robotInit() {
+        // TODO
     }
 
     /**
@@ -132,15 +145,6 @@ public class Robot extends IterativeRobot {
     }
 
     /**
-     * Initialization code for the first boot of the robot. This method is
-     * called when the robot is turned on.
-     */
-    @Override
-    public void robotInit() {
-        // TODO
-    }
-
-    /**
      * Initialization code for teleop mode. This method is called each time the
      * robot enters teleop mode.
      */
@@ -158,29 +162,23 @@ public class Robot extends IterativeRobot {
     public void teleopPeriodic() {
         // TODO
 
-        if(debugShooter){ //Align the shooter lifter motors
-            if(controller.getLeftJoyY() > 0){
-                shooter.debugLeftLifter(1);
-            } else if(controller.getLeftJoyY() < 0){
-                shooter.debugLeftLifter(-1);
-            } else{
-                shooter.debugLeftLifter(0);
-            }
-            if(controller.getRightJoyY() > 0){
-                shooter.debugRightLifter(1);
-            } else if(controller.getRightJoyY() < 0){
-                shooter.debugRightLifter(-1);
-            } else{
-                shooter.debugRightLifter(0);
-            }
+        //Toggle debug mode with switch
+        if(debugSwitch.get()){
+            debugMode = true;
+        } else{
+            debugMode = false;
+        }
 
-            if(controller.getButtonStart()){
-                debugShooter = false;
-            }
-        } else { //Normal teleop
+        if(!debugMode){
             drive();
             pollInput();
+        } else{
+            debug();
         }
+
+        SmartDashboard.putNumber("robot angle", gyro.getAngle());
+        SmartDashboard.putNumber("shooter angle", shooter.getAngle());
+        SmartDashboard.putNumber("light sensor", shooter.getLightSensorValue());
 
         Timer.delay((double) PERIODIC_DELAY / 1000);
     }
@@ -228,6 +226,26 @@ public class Robot extends IterativeRobot {
             shooter.moveLifters(-1);
         } else{
             shooter.moveLifters(0);
+        }
+    }
+
+    /**
+     * DEBUG MODE METHOD
+     */
+    public void debug(){
+        if(controller.getLeftJoyY() > 0){
+            shooter.debugLeftLifter(1);
+        } else if(controller.getLeftJoyY() < 0){
+            shooter.debugLeftLifter(-1);
+        } else{
+            shooter.debugLeftLifter(0);
+        }
+        if(controller.getRightJoyY() > 0){
+            shooter.debugRightLifter(1);
+        } else if(controller.getRightJoyY() < 0){
+            shooter.debugRightLifter(-1);
+        } else{
+            shooter.debugRightLifter(0);
         }
     }
 
