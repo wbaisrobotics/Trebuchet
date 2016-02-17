@@ -9,6 +9,8 @@ import edu.wpi.first.wpilibj.*;
 public class Robot extends IterativeRobot {
     private static final long PERIODIC_DELAY = 5;
 
+    private boolean debugShooter = true;
+
     //Robot objects
     private Shooter shooter;
     private BallLoader ballLoader;
@@ -155,8 +157,30 @@ public class Robot extends IterativeRobot {
     @Override
     public void teleopPeriodic() {
         // TODO
-        drive();
-        pollInput();
+
+        if(debugShooter){ //Align the shooter lifter motors
+            if(controller.getLeftJoyY() > 0){
+                shooter.debugLeftLifter(1);
+            } else if(controller.getLeftJoyY() < 0){
+                shooter.debugLeftLifter(-1);
+            } else{
+                shooter.debugLeftLifter(0);
+            }
+            if(controller.getRightJoyY() > 0){
+                shooter.debugRightLifter(1);
+            } else if(controller.getRightJoyY() < 0){
+                shooter.debugRightLifter(-1);
+            } else{
+                shooter.debugRightLifter(0);
+            }
+
+            if(controller.getButtonStart()){
+                debugShooter = false;
+            }
+        } else { //Normal teleop
+            drive();
+            pollInput();
+        }
 
         Timer.delay((double) PERIODIC_DELAY / 1000);
     }
@@ -192,7 +216,7 @@ public class Robot extends IterativeRobot {
             claw.moveLeftClaw(1);
         } else if(controller.getLeftTrigger() > 0){
             claw.moveLeftClaw(-1);
-        } else{
+        } else {
             claw.moveLeftClaw(0);
         }
     }

@@ -9,7 +9,8 @@ public class Shooter {
     private AnalogGyro gyro;
     private AnalogInput lightSensor;
     private Victor belts;
-    private Victor lifters;
+    private Victor leftLifter;
+    private Victor rightLifter;
     private Servo leftLockingServo;
     private Servo rightLockingServo;
     private DoubleSolenoid launchingPiston;
@@ -28,9 +29,10 @@ public class Shooter {
         gyro = new AnalogGyro(1);
         lightSensor = new AnalogInput(2);
         belts = new Victor(2);
-        lifters = new Victor(3);
-        leftLockingServo = new Servo(4);
-        rightLockingServo = new Servo(5);
+        leftLifter = new Victor(3);
+        rightLifter = new Victor(4);
+        leftLockingServo = new Servo(5);
+        rightLockingServo = new Servo(6);
         launchingPiston = new DoubleSolenoid(4, 5);
 
         travelLocked = true;
@@ -126,5 +128,30 @@ public class Shooter {
         leftLockingServo.setAngle(60);
         rightLockingServo.setAngle(110);
         travelLocked = false;
+    }
+
+    /**
+     * Moves both lifter motors at the same speed.
+     * @param value speed/direction of the motors
+     */
+    public void moveLifters(double value){
+        leftLifter.set(value);
+        rightLifter.set(value);
+    }
+
+    /**
+     * Used for individually moving the left lifter motor for lining up with the right lifter motor.
+     * @param value speed/direction of the motor
+     */
+    public void debugLeftLifter(double value){
+        leftLifter.set(value);
+    }
+
+    /**
+     * Used for individually moving the right lifter motor for lining up with the left lifter motor.
+     * @param value speed/direction of the motor
+     */
+    public void debugRightLifter(double value){
+        rightLifter.set(value);
     }
 }
