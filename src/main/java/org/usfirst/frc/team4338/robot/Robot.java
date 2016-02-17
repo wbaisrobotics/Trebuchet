@@ -205,6 +205,7 @@ public class Robot extends IterativeRobot {
      * Polls the controller, etc for input and reacts accordingly
      */
     private void pollInput(){
+        //Temp claw control
         if(controller.getButtonRB()){
             claw.moveRightClaw(1);
         } else if(controller.getRightTrigger() > 0){
@@ -218,6 +219,15 @@ public class Robot extends IterativeRobot {
             claw.moveLeftClaw(-1);
         } else {
             claw.moveLeftClaw(0);
+        }
+
+        //Temp lifter control
+        if(controller.getPOV() == 0){
+            shooter.moveLifters(1);
+        } else if(controller.getPOV() == 180){
+            shooter.moveLifters(-1);
+        } else{
+            shooter.moveLifters(0);
         }
     }
 
