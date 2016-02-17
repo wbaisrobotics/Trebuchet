@@ -19,8 +19,21 @@ public class Shooter {
     private boolean pistonReady;
     private final double lightSensorThreshold = 3200;
 
-    private enum State {SQUAT, LOAD, TRAVEL, LOWSHOT, HIGHSHOT};
-    private State position;
+    private enum State {
+        SQUAT(0), LOAD(1), TRAVEL(2), LOWSHOT(3), HIGHSHOT(4);
+
+        private int stateID;
+
+        State(int stateID){
+            this.stateID = stateID;
+        }
+
+        public int getID(){
+            return stateID;
+        }
+    }
+
+    private State state;
 
     /**
      *
@@ -38,7 +51,7 @@ public class Shooter {
         travelLocked = true;
         pistonReady = false;
 
-        position = State.TRAVEL;
+        state = State.TRAVEL;
     }
 
     /**
@@ -80,6 +93,14 @@ public class Shooter {
     public void travelPosition(){
         //gyro position 0
         //When light sensor value peaks above threshold
+
+        if(state.getID() > State.TRAVEL.getID()){ //In a higher state
+
+        } else if(state.getID() < State.TRAVEL.getID()){ //In a lower state
+
+        }
+
+         gyro.reset();
     }
 
     /**
@@ -126,6 +147,7 @@ public class Shooter {
      */
     public void unlockFromTravel(){
         leftLockingServo.setAngle(60);
+
         rightLockingServo.setAngle(110);
         travelLocked = false;
     }
