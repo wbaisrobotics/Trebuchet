@@ -84,7 +84,10 @@ public class Shooter {
         }
         lower = getAngle();
 
-        //GO IN BETWEEN
+        //Go in between of upper and lower angle
+        while(getAngle() <= getAngle() + (upper - lower) / 2){
+            moveLifters(0.25);
+        }
 
         gyro.reset();
     }
