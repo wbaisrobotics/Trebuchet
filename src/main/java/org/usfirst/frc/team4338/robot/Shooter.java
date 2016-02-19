@@ -55,6 +55,16 @@ public class Shooter {
     }
 
     /**
+     * Calibrates the travel position of the shooter by getting a min and max angle where the light sensor spikes and
+     * is set in between them
+     * Pre: Shooter is in the travel position
+     * Post: Shooter is more accurately in the travel position for optimal light spike reading
+     */
+    public void calibrate(){
+
+    }
+
+    /**
      * Controls all of the automatic actions that it takes to load a ball into the shooter
      * Pre: Shooter is empty (position of shooter to be determined later)
      * Post: Perform sequence to load a ball so Shooter has a ball, and is in the travel position
@@ -94,13 +104,19 @@ public class Shooter {
         //gyro position 0
         //When light sensor value peaks above threshold
 
-        if(state.getID() > State.TRAVEL.getID()){ //In a higher state
-
-        } else if(state.getID() < State.TRAVEL.getID()){ //In a lower state
-
+        if(state.getID() > State.TRAVEL.getID()){ //Shooter needs to be lowered
+            while(!lightAboveThreshold()){
+                moveLifters(-1 * (Math.abs(getAngle()) <= 30 ? 0.25 : 1)); //Move at quarter speed when close to travel pos
+            }
+        } else if(state.getID() < State.TRAVEL.getID()){ //Shooter needs to be raised
+            while(!lightAboveThreshold()){
+                moveLifters(1 * (Math.abs(getAngle()) <= 30 ? 0.25 : 1)); //Move at quarter speed when close to travel pos
+            }
         }
 
-         gyro.reset();
+        lockForTravel();
+        gyro.reset();
+        state = State.TRAVEL;
     }
 
     /**
@@ -147,7 +163,6 @@ public class Shooter {
      */
     public void unlockFromTravel(){
         leftLockingServo.setAngle(60);
-
         rightLockingServo.setAngle(110);
         travelLocked = false;
     }
