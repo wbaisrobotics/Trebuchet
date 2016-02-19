@@ -163,6 +163,8 @@ public class Robot extends IterativeRobot {
         // TODO
 
         //Toggle debug mode with switch
+        //If the switch doesnt work then have a toggle button (start)
+        //^Will need debouncing to make switching non-trivial
         if(debugSwitch.get()){
             debugMode = true;
         } else{
