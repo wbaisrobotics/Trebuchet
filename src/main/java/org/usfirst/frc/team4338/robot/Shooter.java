@@ -61,7 +61,32 @@ public class Shooter {
      * Post: Shooter is more accurately in the travel position for optimal light spike reading
      */
     public void calibrate(){
+        double upper;
+        double lower;
 
+        unlockFromTravel();
+
+        //Get upper angle
+        while(getAngle() <= 45){
+            moveLifters(0.5);
+        }
+        while(!lightAboveThreshold()){
+            moveLifters(-0.25);
+        }
+        upper = getAngle();
+
+        //Get lower angle
+        while(getAngle() >= -45){
+            moveLifters(-0.5);
+        }
+        while(!lightAboveThreshold()){
+            moveLifters(0.25);
+        }
+        lower = getAngle();
+
+        //GO IN BETWEEN
+
+        gyro.reset();
     }
 
     /**
