@@ -163,7 +163,7 @@ public class Robot extends IterativeRobot {
         // TODO
 
         //Toggle debug mode with switch
-        //If the switch doesnt work then have a toggle button (start)
+        //If the switch doesn't work then have a toggle button (start)
         //^Will need debouncing to make switching non-trivial
         if(debugSwitch.get()){
             debugMode = true;
@@ -235,6 +235,7 @@ public class Robot extends IterativeRobot {
      * DEBUG MODE METHOD
      */
     public void debug(){
+        //Individually control shooter lifter motors
         if(controller.getLeftJoyY() > 0){
             shooter.debugLeftLifter(1);
         } else if(controller.getLeftJoyY() < 0){
@@ -249,6 +250,8 @@ public class Robot extends IterativeRobot {
         } else{
             shooter.debugRightLifter(0);
         }
+
+        //calibration??
     }
 
     /**
