@@ -19,20 +19,6 @@ public class Shooter {
     private boolean pistonReady;
     private final double lightSensorThreshold = 3200;
 
-    private enum State {
-        SQUAT(0), LOAD(1), TRAVEL(2), LOWSHOT(3), HIGHSHOT(4);
-
-        private int stateID;
-
-        State(int stateID){
-            this.stateID = stateID;
-        }
-
-        public int getID(){
-            return stateID;
-        }
-    }
-
     private State state;
 
     /**
