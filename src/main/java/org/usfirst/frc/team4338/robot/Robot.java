@@ -205,6 +205,13 @@ public class Robot extends IterativeRobot {
      * Polls the controller, etc for input and reacts accordingly
      */
     private void pollInput(){
+        //Gear shifting
+        if(controller.getButtonRS()){
+            shiftLow();
+        } else{
+            shiftHigh();
+        }
+
         //Temp claw control
         if(controller.getButtonRB()){
             claw.moveRightClaw(1);
@@ -252,6 +259,24 @@ public class Robot extends IterativeRobot {
         }
 
         //calibration??
+    }
+
+    /**
+     * Shifts the robot drive into high gear.
+     * Faster but less torque
+     */
+    public void shiftHigh(){
+        leftGearShifter.set(DoubleSolenoid.Value.kReverse);
+        rightGearShifter.set(DoubleSolenoid.Value.kReverse);
+    }
+
+    /**
+     * Shifts the robot drive into low gear.
+     * Slower but more torque
+     */
+    public void shiftLow(){
+        leftGearShifter.set(DoubleSolenoid.Value.kForward);
+        rightGearShifter.set(DoubleSolenoid.Value.kForward);
     }
 
     /**
