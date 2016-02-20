@@ -94,7 +94,7 @@ public class Shooter {
      * TravelUnlocked state, and move the side motors until they are in the Squat postion based on the ShooterGyro.
      */
     public void squatPosition(){
-
+        state = State.SQUAT;
     }
 
     /**
@@ -104,7 +104,7 @@ public class Shooter {
      * (if not, unlock the shooter from Travel mode), move the shooter to the angled LoadPosition based on the ShooterGyro.
      */
     public void loadPosition(){
-
+        state = State.LOAD;
     }
 
     /**
