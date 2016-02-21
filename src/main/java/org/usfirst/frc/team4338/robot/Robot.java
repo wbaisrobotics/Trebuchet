@@ -251,7 +251,7 @@ public class Robot extends IterativeRobot {
 
         //shooting
         if(controller.getButtonX()){
-            roller.load();
+            roller.shootAssist();
             shooter.shootLowState();
             roller.stop();
         } else if(controller.getButtonY()){
