@@ -164,7 +164,7 @@ public class Shooter {
      */
     public void shootLowState(){
         belts.set(-3);
-        Timer.delay(2);
+        Timer.delay(1);
         launchingPiston.set(DoubleSolenoid.Value.kForward);
         Timer.delay(0.5);
         launchingPiston.set(DoubleSolenoid.Value.kReverse);
@@ -180,7 +180,7 @@ public class Shooter {
      */
     public void shootHighState(){
         belts.set(-3);
-        Timer.delay(2);
+        Timer.delay(1);
         launchingPiston.set(DoubleSolenoid.Value.kForward);
         Timer.delay(0.5);
         launchingPiston.set(DoubleSolenoid.Value.kReverse);
