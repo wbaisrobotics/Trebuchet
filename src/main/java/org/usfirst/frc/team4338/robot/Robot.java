@@ -13,6 +13,8 @@ public class Robot extends IterativeRobot {
     private boolean debugMode = false;
     private DigitalInput debugSwitch;
 
+    private Compressor compressor;
+
     //Robot objects
     private Shooter shooter;
     private BallLoader ballLoader;
@@ -40,6 +42,8 @@ public class Robot extends IterativeRobot {
     public Robot(){
         debugSwitch = new DigitalInput(0);
 
+        compressor = new Compressor(0);
+
         shooter = new Shooter();
         ballLoader = new BallLoader();
         claw = new Claw();
@@ -63,6 +67,7 @@ public class Robot extends IterativeRobot {
     @Override
     public void robotInit() {
         // TODO
+        compressor.setClosedLoopControl(true);
     }
 
     /**
@@ -236,6 +241,12 @@ public class Robot extends IterativeRobot {
         } else{
             shooter.moveLifters(0);
         }
+
+        if(controller.getButtonA()){
+            shooter.lockForTravel();
+        } else if(controller.getButtonB()){
+            shooter.unlockFromTravel();
+        }
     }
 
     /**
@@ -243,16 +254,16 @@ public class Robot extends IterativeRobot {
      */
     public void debug(){
         //Individually control shooter lifter motors
-        if(controller.getLeftJoyY() > 0){
+        if(controller.getButtonLB()){
             shooter.debugLeftLifter(1);
-        } else if(controller.getLeftJoyY() < 0){
+        } else if(controller.getLeftTrigger() > 0){
             shooter.debugLeftLifter(-1);
         } else{
             shooter.debugLeftLifter(0);
         }
-        if(controller.getRightJoyY() > 0){
+        if(controller.getButtonRB()){
             shooter.debugRightLifter(1);
-        } else if(controller.getRightJoyY() < 0){
+        } else if(controller.getRightTrigger() > 0){
             shooter.debugRightLifter(-1);
         } else{
             shooter.debugRightLifter(0);
