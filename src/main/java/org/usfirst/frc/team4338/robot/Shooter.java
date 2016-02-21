@@ -79,11 +79,19 @@ public class Shooter {
     }
 
     /**
-     *
-     * @param state
+     * Changes the state of the robot and moves the shooter accordingly
+     * Used for transferring between states that depend on only the gyro.
+     * Do not use this method for transferring to the Travel position as the use of the light sensor is required.
+     * @param newState
      */
-    public void changeState(ShooterState state){
+    private void changeState(ShooterState newState){
+        if(state.getID() < newState.getID()){ //Shooter needs to be raised
+            //Use gyro to move shooter
+        } else if(state.getID() > newState.getID()){ //Shooter needs to be lowered
+            //Use gyro to move shooter
+        }
 
+        state = newState;
     }
 
     /**
@@ -102,7 +110,7 @@ public class Shooter {
      * TravelUnlocked state, and move the side motors until they are in the Squat state based on the ShooterGyro.
      */
     public void squatState(){
-        state = ShooterState.SQUAT;
+        changeState(ShooterState.SQUAT);
     }
 
     /**
@@ -112,7 +120,7 @@ public class Shooter {
      * (if not, unlock the shooter from Travel state), move the shooter to the angled Load state based on the ShooterGyro.
      */
     public void loadState(){
-        state = ShooterState.LOAD;
+        changeState(ShooterState.LOAD);
     }
 
     /**
@@ -126,13 +134,13 @@ public class Shooter {
         //gyro position 0
         //When light sensor value peaks above threshold
 
-        if(state.getID() > ShooterState.TRAVEL.getID()){ //Shooter needs to be lowered
-            while(!lightAboveThreshold()){
-                moveLifters(-1 * (Math.abs(getAngle()) <= 30 ? 0.25 : 1)); //Move at quarter speed when close to travel pos
-            }
-        } else if(state.getID() < ShooterState.TRAVEL.getID()){ //Shooter needs to be raised
+        if(state.getID() < ShooterState.TRAVEL.getID()){ //Shooter needs to be raised
             while(!lightAboveThreshold()){
                 moveLifters(1 * (Math.abs(getAngle()) <= 30 ? 0.25 : 1)); //Move at quarter speed when close to travel pos
+            }
+        } else if(state.getID() > ShooterState.TRAVEL.getID()){ //Shooter needs to be lowered
+            while(!lightAboveThreshold()){
+                moveLifters(-1 * (Math.abs(getAngle()) <= 30 ? 0.25 : 1)); //Move at quarter speed when close to travel pos
             }
         }
 
