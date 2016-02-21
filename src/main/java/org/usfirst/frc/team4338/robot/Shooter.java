@@ -19,7 +19,7 @@ public class Shooter {
     private boolean pistonReady;
     private final double lightSensorThreshold = 3200;
 
-    private State state;
+    private ShooterState state;
 
     /**
      *
@@ -37,7 +37,7 @@ public class Shooter {
         travelLocked = true;
         pistonReady = false;
 
-        state = State.TRAVEL;
+        state = ShooterState.TRAVEL;
     }
 
     /**
@@ -94,7 +94,7 @@ public class Shooter {
      * TravelUnlocked state, and move the side motors until they are in the Squat postion based on the ShooterGyro.
      */
     public void squatPosition(){
-        state = State.SQUAT;
+        state = ShooterState.SQUAT;
     }
 
     /**
@@ -104,7 +104,7 @@ public class Shooter {
      * (if not, unlock the shooter from Travel mode), move the shooter to the angled LoadPosition based on the ShooterGyro.
      */
     public void loadPosition(){
-        state = State.LOAD;
+        state = ShooterState.LOAD;
     }
 
     /**
@@ -118,11 +118,11 @@ public class Shooter {
         //gyro position 0
         //When light sensor value peaks above threshold
 
-        if(state.getID() > State.TRAVEL.getID()){ //Shooter needs to be lowered
+        if(state.getID() > ShooterState.TRAVEL.getID()){ //Shooter needs to be lowered
             while(!lightAboveThreshold()){
                 moveLifters(-1 * (Math.abs(getAngle()) <= 30 ? 0.25 : 1)); //Move at quarter speed when close to travel pos
             }
-        } else if(state.getID() < State.TRAVEL.getID()){ //Shooter needs to be raised
+        } else if(state.getID() < ShooterState.TRAVEL.getID()){ //Shooter needs to be raised
             while(!lightAboveThreshold()){
                 moveLifters(1 * (Math.abs(getAngle()) <= 30 ? 0.25 : 1)); //Move at quarter speed when close to travel pos
             }
@@ -130,7 +130,7 @@ public class Shooter {
 
         lockForTravel();
         gyro.reset();
-        state = State.TRAVEL;
+        state = ShooterState.TRAVEL;
     }
 
     /**
