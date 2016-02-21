@@ -157,7 +157,7 @@ public class Shooter {
         //When light sensor value peaks above threshold
         if(state.getID() < ShooterState.TRAVEL.getID()){ //Shooter needs to be raised
             while(!lightAboveThreshold()){
-                moveLifters(1 * (Math.abs(getAngle()) <= 25 ? 0.15 : 1)); //Move at quarter speed when close to travel pos
+                moveLifters(1 * (Math.abs(getAngle()) <= 25 ? 0.15 : 1)); //Move at 15% speed when close to travel pos
 
                 //Check for over rotation
                 if(overRotated(lastTimeReading, lastAngleReading)){
@@ -167,7 +167,7 @@ public class Shooter {
             moveLifters(0);
         } else if(state.getID() > ShooterState.TRAVEL.getID()){ //Shooter needs to be lowered
             while(!lightAboveThreshold()){
-                moveLifters(-1 * (Math.abs(getAngle()) <= 25 ? 0.15 : 1)); //Move at quarter speed when close to travel pos
+                moveLifters(-1 * (Math.abs(getAngle()) <= 25 ? 0.15 : 1)); //Move at 15% speed when close to travel pos
 
                 //Check for over rotation
                 if(overRotated(lastTimeReading, lastAngleReading)){
