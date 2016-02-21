@@ -160,8 +160,13 @@ public class Shooter {
                 moveLifters(1 * (Math.abs(getAngle()) <= 25 ? 0.15 : 1)); //Move at 15% speed when close to travel pos
 
                 //Check for over rotation
-                if(overRotated(lastTimeReading, lastAngleReading)){
-                    break; //??
+                //Check if a new angle needs to be recorded
+                if(Timer.getFPGATimestamp() - lastTimeReading >= 0.1){
+                    lastAngleReading = getAngle();
+                }
+                //If increasing and greater than 20 degrees something is wrong
+                if(Math.abs(getAngle()) - lastAngleReading > 0 && Math.abs(getAngle()) > 20){
+                    break;
                 }
             }
             moveLifters(0);
@@ -170,8 +175,13 @@ public class Shooter {
                 moveLifters(-1 * (Math.abs(getAngle()) <= 25 ? 0.15 : 1)); //Move at 15% speed when close to travel pos
 
                 //Check for over rotation
-                if(overRotated(lastTimeReading, lastAngleReading)){
-                    break; //??
+                //Check if a new angle needs to be recorded
+                if(Timer.getFPGATimestamp() - lastTimeReading >= 0.1){
+                    lastAngleReading = getAngle();
+                }
+                //If increasing and greater than 20 degrees something is wrong
+                if(Math.abs(getAngle()) - lastAngleReading > 0 && Math.abs(getAngle()) > 20){
+                    break;
                 }
             }
             moveLifters(0);
@@ -180,27 +190,6 @@ public class Shooter {
         lockForTravel();
         gyro.reset();
         state = ShooterState.TRAVEL;
-    }
-
-    /**
-     * Detects if the shooter has over rotated and something is wrong
-     * @param lastTimeReading
-     * @param lastAngleReading
-     * @return
-     */
-    private boolean overRotated(double lastTimeReading, double lastAngleReading){
-        boolean disaster = false;
-
-        //Check if a new angle needs to be recorded
-        if(Timer.getFPGATimestamp() - lastTimeReading >= 0.1){
-            lastAngleReading = getAngle();
-        }
-        //If increasing and greater than 20 degrees something is wrong
-        if(Math.abs(getAngle()) - lastAngleReading > 0 && Math.abs(getAngle()) > 20){
-            disaster = true;
-        }
-
-        return disaster;
     }
 
     /**
