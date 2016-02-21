@@ -87,8 +87,14 @@ public class Shooter {
     private void changeState(ShooterState newState){
         if(state.getID() < newState.getID()){ //Shooter needs to be raised
             //Use gyro to move shooter
+            while(getAngle() < newState.getAngle()){
+                moveLifters(0.5);
+            }
         } else if(state.getID() > newState.getID()){ //Shooter needs to be lowered
             //Use gyro to move shooter
+            while(getAngle() > newState.getAngle()){
+                moveLifters(-0.5);
+            }
         }
 
         state = newState;
