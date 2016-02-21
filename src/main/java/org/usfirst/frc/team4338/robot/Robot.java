@@ -17,7 +17,7 @@ public class Robot extends IterativeRobot {
 
     //Robot objects
     private Shooter shooter;
-    private BallLoader ballLoader;
+    private Roller roller;
     private Claw claw;
     private ClimbingArm climbingArm;
 
@@ -45,7 +45,7 @@ public class Robot extends IterativeRobot {
         compressor = new Compressor(0);
 
         shooter = new Shooter();
-        ballLoader = new BallLoader();
+        roller = new Roller();
         claw = new Claw();
         climbingArm = new ClimbingArm();
 
@@ -242,10 +242,20 @@ public class Robot extends IterativeRobot {
             shooter.moveLifters(0);
         }
 
+        //Temp locking servo control
         if(controller.getButtonA()){
             shooter.lockForTravel();
         } else if(controller.getButtonB()){
             shooter.unlockFromTravel();
+        }
+
+        //shooting
+        if(controller.getButtonX()){
+            roller.load();
+            shooter.shootLowState();
+            roller.stop();
+        } else if(controller.getButtonY()){
+            shooter.shootHighState();
         }
     }
 

@@ -163,7 +163,12 @@ public class Shooter {
      * recovers the LaunchingPiston to PistonReady, returns the robot to Travel state.
      */
     public void shootLowState(){
-
+        belts.set(-3);
+        Timer.delay(2);
+        launchingPiston.set(DoubleSolenoid.Value.kForward);
+        Timer.delay(0.5);
+        launchingPiston.set(DoubleSolenoid.Value.kReverse);
+        belts.set(0);
     }
 
     /**
@@ -174,11 +179,12 @@ public class Shooter {
      * recovers the LaunchingPiston to PistonReady, returns the robot to Travel state.
      */
     public void shootHighState(){
-        belts.set(1);
+        belts.set(-3);
         Timer.delay(2);
         launchingPiston.set(DoubleSolenoid.Value.kForward);
         Timer.delay(0.5);
         launchingPiston.set(DoubleSolenoid.Value.kReverse);
+        belts.set(0);
     }
 
     /**
