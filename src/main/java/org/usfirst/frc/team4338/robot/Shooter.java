@@ -50,30 +50,37 @@ public class Shooter {
         double upper;
         double lower;
 
-        unlockFromTravel();
+        if(travelLocked){ //Check if servos are locked
+            unlockFromTravel();
+        }
 
         //Get upper angle
         while(getAngle() <= 45){
             moveLifters(0.5);
         }
+        moveLifters(0);
         while(!lightAboveThreshold()){
-            moveLifters(-0.25);
+            moveLifters(-0.15);
         }
+        moveLifters(0);
         upper = getAngle();
 
         //Get lower angle
         while(getAngle() >= -45){
             moveLifters(-0.5);
         }
+        moveLifters(0);
         while(!lightAboveThreshold()){
-            moveLifters(0.25);
+            moveLifters(0.15);
         }
+        moveLifters(0);
         lower = getAngle();
 
         //Go in between of upper and lower angle
         while(getAngle() <= getAngle() + (upper - lower) / 2){
-            moveLifters(0.25);
+            moveLifters(0.15);
         }
+        moveLifters(0);
 
         gyro.reset();
     }
@@ -85,16 +92,22 @@ public class Shooter {
      * @param newState
      */
     private void changeState(ShooterState newState){
+        if(travelLocked){ //Check if locked for travel
+            unlockFromTravel();
+        }
+
         if(state.getID() < newState.getID()){ //Shooter needs to be raised
             //Use gyro to move shooter
             while(getAngle() < newState.getAngle()){
                 moveLifters(0.5);
             }
+            moveLifters(0);
         } else if(state.getID() > newState.getID()){ //Shooter needs to be lowered
             //Use gyro to move shooter
             while(getAngle() > newState.getAngle()){
                 moveLifters(-0.5);
             }
+            moveLifters(0);
         }
 
         state = newState;
@@ -145,11 +158,13 @@ public class Shooter {
                 moveLifters(1 * (Math.abs(getAngle()) <= 25 ? 0.15 : 1)); //Move at quarter speed when close to travel pos
                 //ADD OVER ROTATION DETECTION
             }
+            moveLifters(0);
         } else if(state.getID() > ShooterState.TRAVEL.getID()){ //Shooter needs to be lowered
             while(!lightAboveThreshold()){
                 moveLifters(-1 * (Math.abs(getAngle()) <= 25 ? 0.15 : 1)); //Move at quarter speed when close to travel pos
                 //ADD OVER ROTATION DETECTION
             }
+            moveLifters(0);
         }
 
         lockForTravel();
