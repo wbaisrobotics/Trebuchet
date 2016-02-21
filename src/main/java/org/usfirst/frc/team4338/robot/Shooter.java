@@ -79,6 +79,14 @@ public class Shooter {
     }
 
     /**
+     *
+     * @param state
+     */
+    public void changeState(ShooterState state){
+
+    }
+
+    /**
      * Controls all of the automatic actions that it takes to load a ball into the shooter
      * Pre: Shooter is empty (position of shooter to be determined later)
      * Post: Perform sequence to load a ball so Shooter has a ball, and is in the travel position
@@ -88,33 +96,33 @@ public class Shooter {
     }
 
     /**
-     * Moves the shooter to the lowest Squat position to travel under the Low Bar obstacle.
+     * Moves the shooter to the lowest Squat state to travel under the Low Bar obstacle.
      * Pre: None
-     * Post: If the shooter is not in the SquatPosition, then make sure the LockingServo is in the
-     * TravelUnlocked state, and move the side motors until they are in the Squat postion based on the ShooterGyro.
+     * Post: If the shooter is not in the squat state, then make sure the LockingServo is in the
+     * TravelUnlocked state, and move the side motors until they are in the Squat state based on the ShooterGyro.
      */
-    public void squatPosition(){
+    public void squatState(){
         state = ShooterState.SQUAT;
     }
 
     /**
-     *Moves the shooter to the tilted Load position so that a new ball can be loaded into the robot.
+     *Moves the shooter to the tilted Load state so that a new ball can be loaded into the robot.
      * Pre: None
-     * Post: If the shooter is not in the LoadPosition, Then check that TravelLocked is false
-     * (if not, unlock the shooter from Travel mode), move the shooter to the angled LoadPosition based on the ShooterGyro.
+     * Post: If the shooter is not in the Load state, Then check that TravelLocked is false
+     * (if not, unlock the shooter from Travel state), move the shooter to the angled Load state based on the ShooterGyro.
      */
-    public void loadPosition(){
+    public void loadState(){
         state = ShooterState.LOAD;
     }
 
     /**
-     * Moves the shooter to the horizontal Travel position, and secures the front of the shooter for travel over rough terrain.
+     * Moves the shooter to the horizontal Travel state, and secures the front of the shooter for travel over rough terrain.
      * Pre: None
-     * Post: If the shooter is not in the TravelPosition, then check that the TravelLocked is false,
-     * move the shooter to the horizontal TravelPostion based on the ShooterGyro,
-     * activate the LockingServo to the TravelLocked position and update all state variables involved.
+     * Post: If the shooter is not in the Travel state, then check that the TravelLocked is false,
+     * move the shooter to the horizontal Travel state based on the ShooterGyro,
+     * activate the LockingServo to the TravelLocked state and update all state variables involved.
      */
-    public void travelPosition(){
+    public void travelState(){
         //gyro position 0
         //When light sensor value peaks above threshold
 
@@ -136,31 +144,35 @@ public class Shooter {
     /**
      * Activates the sequence of events that will shoot at one of the low target holes
      * Pre: Shooter has a ball loaded, and robot is facing a Low target hole
-     * Post: Robot transitions to the LowShot position (unlocking from TravelPosition if necessary),
-     * creeps to shooting postion based on ColorSensor, Spins up the Top & Bottom motors, activates the LaunchingPistion,
-     * recovers the LaunchingPiston to PistonReady, returns the robot to Travel position.
+     * Post: Robot transitions to the LowShot state (unlocking from Travel state if necessary),
+     * creeps to shooting position based on ColorSensor, Spins up the Top & Bottom motors, activates the LaunchingPiston,
+     * recovers the LaunchingPiston to PistonReady, returns the robot to Travel state.
      */
-    public void shootLowPosition(){
+    public void shootLowState(){
 
     }
 
     /**
      * Activates the sequence of events that will shoot at one of the high target holes
      * Pre: Shooter has ball loaded, and robot is facing a High target hole
-     * Post: Robot transitions to the HighShot position (unlocking from TravelPosition if necessary),
+     * Post: Robot transitions to the HighShot state (unlocking from TravelPosition if necessary),
      * creeps to shooting postion based on ColorSensor, Spins up the Top & Bottom motors, activates the LaunchingPiston,
-     * recovers the LaunchingPiston to PistonReady, returns the robot to Travel position.
+     * recovers the LaunchingPiston to PistonReady, returns the robot to Travel state.
      */
-    public void shootHighPosition(){
-
+    public void shootHighState(){
+        belts.set(1);
+        Timer.delay(2);
+        launchingPiston.set(DoubleSolenoid.Value.kForward);
+        Timer.delay(0.5);
+        launchingPiston.set(DoubleSolenoid.Value.kReverse);
     }
 
     /**
      * Activates the LockingServo to slide the locking-cam into place so the front of the robot is stable and
      * safe to travel over rough terrain.
-     * Pre: Shooter must be in the travel position (based on ShooterGyro) to allow the locking-cam to slide into position.
-     * Post: If TravelLocked is false AND in TravelPosition, then activate the LockingServo to the
-     * TravelLocked position, else do nothing.
+     * Pre: Shooter must be in the travel state (based on ShooterGyro) to allow the locking-cam to slide into position.
+     * Post: If TravelLocked is false AND in Travel state, then activate the LockingServo to the
+     * TravelLocked state, else do nothing.
      */
     public void lockForTravel(){
         leftLockingServo.setAngle(170);
@@ -171,9 +183,9 @@ public class Shooter {
     /**
      * Activates the LockingServo to slide the locking-cam out of place so the front of the robot is no longer stable
      * and safe to travel over rough terrain.
-     * Pre: Shooter must be in the travel position (based on ShooterGyro) to allow the locking-cam to slide into position.
-     * Post: If TravelLocked is true AND in TravelPosition, then activate the LockingServo to the
-     * TravelUnlocked position, else do nothing.
+     * Pre: Shooter must be in the travel state (based on ShooterGyro) to allow the locking-cam to slide into position.
+     * Post: If TravelLocked is true AND in Travel state, then activate the LockingServo to the
+     * TravelUnlocked state, else do nothing.
      */
     public void unlockFromTravel(){
         leftLockingServo.setAngle(60);
