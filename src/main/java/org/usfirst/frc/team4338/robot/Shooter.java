@@ -142,11 +142,13 @@ public class Shooter {
 
         if(state.getID() < ShooterState.TRAVEL.getID()){ //Shooter needs to be raised
             while(!lightAboveThreshold()){
-                moveLifters(1 * (Math.abs(getAngle()) <= 30 ? 0.25 : 1)); //Move at quarter speed when close to travel pos
+                moveLifters(1 * (Math.abs(getAngle()) <= 25 ? 0.15 : 1)); //Move at quarter speed when close to travel pos
+                //ADD OVER ROTATION DETECTION
             }
         } else if(state.getID() > ShooterState.TRAVEL.getID()){ //Shooter needs to be lowered
             while(!lightAboveThreshold()){
-                moveLifters(-1 * (Math.abs(getAngle()) <= 30 ? 0.25 : 1)); //Move at quarter speed when close to travel pos
+                moveLifters(-1 * (Math.abs(getAngle()) <= 25 ? 0.15 : 1)); //Move at quarter speed when close to travel pos
+                //ADD OVER ROTATION DETECTION
             }
         }
 
