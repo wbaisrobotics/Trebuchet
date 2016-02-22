@@ -27,8 +27,8 @@ public class VisionThread implements Runnable {
 	public void run() {
 		NIVision.imaqColorThreshold(camera.getBinaryFrame(), camera.getFrame(), 255, ColorMode.HSV,
 				target.getHueRange(), target.getSatRange(), target.getValRange());
-		CameraServer.getInstance().setImage(camera.getBinaryFrame());
 		Image binaryFrame = camera.getBinaryFrame();
+		CameraServer.getInstance().setImage(binaryFrame);
 		int particleCount = NIVision.imaqCountParticles(camera.getBinaryFrame(), 1);
 		for (int i = 0; i < particleCount; i++)
 			results.add(new ScoringResult(new Particle(binaryFrame, i).createReport()));
