@@ -170,10 +170,15 @@ public class Robot extends IterativeRobot {
         //Toggle debug mode with switch
         //If the switch doesn't work then have a toggle button (start)
         //^Will need debouncing to make switching non-trivial
+        /*
         if(debugSwitch.get()){
             debugMode = true;
         } else{
             debugMode = false;
+        }
+        */
+        if(controller.getButtonStart()){
+            debugMode = !debugMode;
         }
 
         if(!debugMode){
@@ -183,6 +188,7 @@ public class Robot extends IterativeRobot {
             debug();
         }
 
+        SmartDashboard.putBoolean("debug", debugMode);
         SmartDashboard.putNumber("robot angle", gyro.getAngle());
         SmartDashboard.putNumber("shooter angle", shooter.getAngle());
         SmartDashboard.putNumber("light sensor", shooter.getLightSensorValue());
