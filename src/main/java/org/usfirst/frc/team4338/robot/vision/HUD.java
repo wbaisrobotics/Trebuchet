@@ -2,6 +2,9 @@ package org.usfirst.frc.team4338.robot.vision;
 
 import java.awt.Dimension;
 
+import org.usfirst.frc.team4338.robot.Shooter;
+import org.usfirst.frc.team4338.robot.ShooterState;
+
 import com.ni.vision.NIVision;
 import com.ni.vision.NIVision.DrawMode;
 import com.ni.vision.NIVision.GetImageSizeResult;
@@ -23,6 +26,7 @@ public class HUD {
 	public void render(Image frame) {
 		Dimension size = getSize(frame);
 		renderVerticalLine(frame, size);
+		renderHighshotLine(frame, size);
 	}
 	
 	private Dimension getSize(Image frame) {
@@ -32,8 +36,20 @@ public class HUD {
 	
 	private void renderVerticalLine(Image frame, Dimension size) {
 		Point top = new Point((int) size.getWidth() / 2, 0);
-		Point bottom = new Point((int) size.getWidth() / 2, (int) size.getHeight());
+		Point bottom = new Point((int) size.getWidth() / 2, (int) size.getHeight() - 1);
 		NIVision.imaqDrawLineOnImage(frame, frame, DrawMode.DRAW_VALUE, top, bottom, 0f);
+	}
+	
+	private void renderHighshotLine(Image frame, Dimension size) {
+		if (!showShootingIndicator(ShooterState.HIGHSHOT))
+			return;
+		Point left = new Point(0, (int) size.getHeight() / 2);
+		Point right = new Point((int) size.getWidth() - 1, (int) size.getHeight() / 2);
+		NIVision.imaqDrawLineOnImage(frame, frame, DrawMode.DRAW_VALUE, left, right, 0f);
+	}
+	
+	private boolean showShootingIndicator(ShooterState state) {
+		return camera.getRobot().getShooter().getState() == state;
 	}
 	
 }

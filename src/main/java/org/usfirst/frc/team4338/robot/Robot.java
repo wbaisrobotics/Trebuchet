@@ -46,7 +46,7 @@ public class Robot extends IterativeRobot {
         debugSwitch = new DigitalInput(0);
 
         compressor = new Compressor(0);
-        camera = new Camera(Camera.DEFAULT_VIEW_ANGLE);
+        camera = new Camera(this, Camera.DEFAULT_VIEW_ANGLE);
 
         shooter = new Shooter();
         roller = new Roller();
@@ -350,5 +350,9 @@ public class Robot extends IterativeRobot {
     @Override
     public void testPeriodic() {
         // TODO
+    }
+    
+    public Shooter getShooter() {
+    	return shooter;
     }
 }

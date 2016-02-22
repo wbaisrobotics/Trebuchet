@@ -1,5 +1,7 @@
 package org.usfirst.frc.team4338.robot.vision;
 
+import org.usfirst.frc.team4338.robot.Robot;
+
 import com.ni.vision.NIVision;
 import com.ni.vision.NIVision.GetImageSizeResult;
 import com.ni.vision.NIVision.IMAQdxCameraControlMode;
@@ -12,13 +14,15 @@ public class Camera {
 	public static final String DEFAULT_CAMERA_NAME = "cam0";
 	public static final double DEFAULT_VIEW_ANGLE = 60d;
 
+	private Robot robot;
 	private Image frame, binaryFrame;
 	private CameraServer server;
 	private int session;
 	private double viewAngle;
 	private HUD hud;
 
-	public Camera(double viewAngle) {
+	public Camera(Robot robot, double viewAngle) {
+		this.robot = robot;
 		this.viewAngle = viewAngle;
 		server = CameraServer.getInstance();
 		hud = new HUD(this);
@@ -60,5 +64,9 @@ public class Camera {
 
 	public void setBinaryFrame(Image binaryFrame) {
 		this.binaryFrame = binaryFrame;
+	}
+	
+	public Robot getRobot() {
+		return robot;
 	}
 }

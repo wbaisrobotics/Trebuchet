@@ -40,6 +40,10 @@ public class Shooter {
         state = ShooterState.TRAVEL;
     }
 
+    public ShooterState getState() {
+		return state;
+	}
+
     /**
      * Calibrates the travel position of the shooter by getting a min and max angle where the light sensor spikes and
      * is set in between them
