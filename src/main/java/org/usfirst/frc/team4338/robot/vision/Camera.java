@@ -16,15 +16,18 @@ public class Camera {
 	private CameraServer server;
 	private int session;
 	private double viewAngle;
+	private HUD hud;
 
 	public Camera(double viewAngle) {
 		this.viewAngle = viewAngle;
 		server = CameraServer.getInstance();
+		hud = new HUD(this);
 		initializeVision();
 	}
 
 	public void captureImage() {
 		NIVision.IMAQdxGrab(session, frame, 1);
+		hud.render(frame);
 		server.setImage(frame);
 	}
 
