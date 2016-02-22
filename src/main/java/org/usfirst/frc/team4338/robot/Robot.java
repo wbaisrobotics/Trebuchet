@@ -260,10 +260,6 @@ public class Robot extends IterativeRobot {
             } else {
                 shiftHigh();
             }
-            //Debug switching
-            if (controller.getButtonStart()) {
-                debugMode = !debugMode;
-            }
             //Shooting
             if (controller.getButtonRB()) { //shoot high
 
