@@ -264,6 +264,13 @@ public class Shooter {
     }
 
     /**
+     * Turns off the shooting belts
+     */
+    public void turnOffBelts(){
+        belts.set(0);
+    }
+
+    /**
      * Used for individually moving the left lifter motor for lining up with the right lifter motor.
      * @param value speed/direction of the motor
      */
