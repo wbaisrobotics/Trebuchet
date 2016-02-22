@@ -210,7 +210,7 @@ public class Robot extends IterativeRobot {
      * Polls the controller, etc for input and reacts accordingly
      */
     private void pollInput(){
-        //Gear shifting
+    	//Gear shifting
         if(controller.getButtonRS()){
             shiftLow();
         } else{
@@ -234,28 +234,30 @@ public class Robot extends IterativeRobot {
         }
 
         //Temp lifter control
-        if(controller.getPOV() == 0){
-            shooter.moveLifters(1);
-        } else if(controller.getPOV() == 180){
-            shooter.moveLifters(-1);
-        } else{
-            shooter.moveLifters(0);
-        }
-
-        //Temp locking servo control
         if(controller.getButtonA()){
-            shooter.lockForTravel();
-        } else if(controller.getButtonB()){
-            shooter.unlockFromTravel();
+        	shooter.moveLifters(-1);
+        } else if(controller.getButtonY()){
+        	shooter.moveLifters(1);
+        } else{
+        	shooter.moveLifters(0);
         }
 
-        //shooting
-        if(controller.getButtonX()){
-            roller.shootAssist();
-            shooter.shootLowState();
-            roller.stop();
-        } else if(controller.getButtonY()){
-            shooter.shootHighState();
+        //Temp loading
+        if(controller.getPOV() == 270){
+        	roller.load();
+        	shooter.loadBall();
+        } else{
+        	roller.stop();
+        	shooter.turnOffBelts();
+        }
+        
+        //Temp shooting
+        if(controller.getPOV() == 0){
+        	shooter.shootHighState();
+        } else if(controller.getPOV() == 180){
+        	roller.shootAssist();
+        	shooter.shootLowState();
+        	roller.stop();
         }
     }
 
