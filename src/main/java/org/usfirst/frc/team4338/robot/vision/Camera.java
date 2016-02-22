@@ -20,6 +20,10 @@ public class Camera {
 	private int session;
 	private double viewAngle;
 	private HUD hud;
+	
+	public Camera(Robot robot) {
+		this(robot, DEFAULT_VIEW_ANGLE);
+	}
 
 	public Camera(Robot robot, double viewAngle) {
 		this.robot = robot;

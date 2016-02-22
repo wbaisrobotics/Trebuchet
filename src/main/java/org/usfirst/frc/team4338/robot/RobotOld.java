@@ -42,7 +42,7 @@ public class RobotOld extends Robot {
         super();
 
         // Set up vision
-        camera = new Camera(this, Camera.DEFAULT_VIEW_ANGLE);
+        camera = new Camera(this);
 
         // Set up controls
         driveJoystick = new Joystick(0);

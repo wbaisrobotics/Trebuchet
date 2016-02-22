@@ -46,7 +46,7 @@ public class Robot extends IterativeRobot {
         debugSwitch = new DigitalInput(0);
 
         compressor = new Compressor(0);
-        camera = new Camera(this, Camera.DEFAULT_VIEW_ANGLE);
+        camera = new Camera(this);
 
         shooter = new Shooter();
         roller = new Roller();
