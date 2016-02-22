@@ -257,6 +257,10 @@ public class Shooter {
     public void moveLifters(double value){
         leftLifter.set(value);
         rightLifter.set(value);
+
+        //FOR DEBUGGING ONLY
+        //TODO REMOVE AFTER TESTING
+        state = ShooterState.HIGHSHOT;
     }
 
     /**
