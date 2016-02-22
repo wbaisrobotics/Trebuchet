@@ -70,7 +70,6 @@ public class Robot extends IterativeRobot {
      */
     @Override
     public void robotInit() {
-        // TODO
         compressor.setClosedLoopControl(true);
     }
 
@@ -80,7 +79,6 @@ public class Robot extends IterativeRobot {
      */
     @Override
     public void autonomousInit() {
-        // TODO
         gyro.reset();
     }
 
@@ -90,7 +88,6 @@ public class Robot extends IterativeRobot {
      */
     @Override
     public void autonomousPeriodic() {
-        // TODO
         autoMoveStraight(0.6, 2);
     }
 
@@ -184,11 +181,11 @@ public class Robot extends IterativeRobot {
             debugMode = !debugMode;
         }
 
-        if(!debugMode){
+        if(debugMode){
+            debug();
+        } else{
             drive();
             pollInput();
-        } else{
-            debug();
         }
 
         SmartDashboard.putBoolean("debug", debugMode);
