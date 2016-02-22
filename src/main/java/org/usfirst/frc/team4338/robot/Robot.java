@@ -1,5 +1,7 @@
 package org.usfirst.frc.team4338.robot;
 
+import org.usfirst.frc.team4338.robot.vision.Camera;
+
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -14,6 +16,7 @@ public class Robot extends IterativeRobot {
     private DigitalInput debugSwitch;
 
     private Compressor compressor;
+    private Camera camera;
 
     //Robot objects
     private Shooter shooter;
@@ -43,6 +46,7 @@ public class Robot extends IterativeRobot {
         debugSwitch = new DigitalInput(0);
 
         compressor = new Compressor(0);
+        camera = new Camera(Camera.DEFAULT_VIEW_ANGLE);
 
         shooter = new Shooter();
         roller = new Roller();
@@ -155,7 +159,6 @@ public class Robot extends IterativeRobot {
      */
     @Override
     public void teleopInit() {
-        // TODO
         gyro.reset();
     }
 
@@ -165,7 +168,7 @@ public class Robot extends IterativeRobot {
      */
     @Override
     public void teleopPeriodic() {
-        // TODO
+        camera.captureImage();
 
         //Toggle debug mode with switch
         //If the switch doesn't work then have a toggle button (start)
