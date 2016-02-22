@@ -157,11 +157,12 @@ public class Shooter {
         //When light sensor value peaks above threshold
         if(state.getID() < ShooterState.TRAVEL.getID()){ //Shooter needs to be raised
             while(!lightAboveThreshold()){
-                moveLifters(1 * (Math.abs(getAngle()) <= 25 ? 0.15 : 1)); //Move at 15% speed when close to travel pos
+                //moveLifters(1 * (Math.abs(getAngle()) <= 25 ? 0.15 : 1)); //Move at 15% speed when close to travel pos
+                moveLifters(0.15);
 
                 //Check for over rotation
                 //Check if a new angle needs to be recorded
-                if(Timer.getFPGATimestamp() - lastTimeReading >= 0.1){
+                if(Timer.getFPGATimestamp() - lastTimeReading >= 0.2){
                     lastAngleReading = getAngle();
                 }
                 //If increasing and greater than 20 degrees something is wrong
@@ -172,11 +173,12 @@ public class Shooter {
             moveLifters(0);
         } else if(state.getID() > ShooterState.TRAVEL.getID()){ //Shooter needs to be lowered
             while(!lightAboveThreshold()){
-                moveLifters(-1 * (Math.abs(getAngle()) <= 25 ? 0.15 : 1)); //Move at 15% speed when close to travel pos
+                //moveLifters(-1 * (Math.abs(getAngle()) <= 25 ? 0.15 : 1)); //Move at 15% speed when close to travel pos
+                moveLifters(-0.15);
 
                 //Check for over rotation
                 //Check if a new angle needs to be recorded
-                if(Timer.getFPGATimestamp() - lastTimeReading >= 0.1){
+                if(Timer.getFPGATimestamp() - lastTimeReading >= 0.2){
                     lastAngleReading = getAngle();
                 }
                 //If increasing and greater than 20 degrees something is wrong
@@ -187,7 +189,7 @@ public class Shooter {
             moveLifters(0);
         }
 
-        lockForTravel();
+        //lockForTravel();
         gyro.reset();
         state = ShooterState.TRAVEL;
     }
@@ -260,7 +262,11 @@ public class Shooter {
 
         //FOR DEBUGGING ONLY
         //TODO REMOVE AFTER TESTING
-        state = ShooterState.HIGHSHOT;
+        if(value < 0){
+            state = ShooterState.LOWSHOT;
+        } else if(value > 0){
+            state = ShooterState.HIGHSHOT;
+        }
     }
 
     /**
