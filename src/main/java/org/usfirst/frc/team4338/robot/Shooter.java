@@ -263,7 +263,7 @@ public class Shooter {
         //FOR DEBUGGING ONLY
         //TODO REMOVE AFTER TESTING
         if(value < 0){
-            state = ShooterState.LOWSHOT;
+            state = ShooterState.SQUAT;
         } else if(value > 0){
             state = ShooterState.HIGHSHOT;
         }
