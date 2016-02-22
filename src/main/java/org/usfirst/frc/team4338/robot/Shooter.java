@@ -124,7 +124,7 @@ public class Shooter {
         switch(state){
             case SQUAT: changeState(ShooterState.LOAD); break;
             case LOAD: changeState(ShooterState.TRAVEL); break;
-            case TRAVEL: changeState(ShooterState.HIGHSHOT); break;
+            case TRAVEL: changeState(ShooterState.HIGHSHOT); break; //Probably change to travelState() call
             case HIGHSHOT: break;
         }
     }
@@ -136,7 +136,7 @@ public class Shooter {
         switch(state){
             case SQUAT: break;
             case LOAD: changeState(ShooterState.SQUAT); break;
-            case TRAVEL: changeState(ShooterState.LOAD); break;
+            case TRAVEL: changeState(ShooterState.LOAD); break; //Probably change to travelState() call
             case HIGHSHOT: changeState(ShooterState.TRAVEL); break;
         }
     }
