@@ -39,4 +39,13 @@ public class Claw {
     public void moveRightClaw(double value){
         rightClaw.set(value);
     }
+
+    /**
+     * Moves both claws in the same way
+     * @param value
+     */
+    public void moveClaws(double value){
+        moveLeftClaw(value);
+        moveRightClaw(value);
+    }
 }

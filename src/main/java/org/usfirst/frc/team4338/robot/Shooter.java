@@ -272,7 +272,7 @@ public class Shooter {
     /**
      * Turns off the shooting belts
      */
-    public void turnOffBelts(){
+    public void stopBelts(){
         belts.set(0);
     }
 

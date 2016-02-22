@@ -216,54 +216,77 @@ public class Robot extends IterativeRobot {
      * Polls the controller, etc for input and reacts accordingly
      */
     private void pollInput(){
-    	//Gear shifting
-        if(controller.getButtonRS()){
-            shiftLow();
-        } else{
-            shiftHigh();
-        }
+        if(controller.getButtonA()){ //secondary input
+            //Start climb
+            if(controller.getButtonBack()){
+                climbingArm.deployArms();
+            }
+            //Individually move claws
+            if(controller.getButtonLB()){
+                claw.moveLeftClaw(1);
+            } else if(controller.getLeftTrigger() > 0){
+                claw.moveLeftClaw(-1);
+            } else{
+                claw.moveLeftClaw(0);
+            }
+            if(controller.getButtonRB()){
+                claw.moveRightClaw(1);
+            } else if(controller.getRightTrigger() > 0){
+                claw.moveRightClaw(-1);
+            } else{
+                claw.moveRightClaw(0);
+            }
+            //Manual lifter control
+            if(controller.getPOV() == 180){ //lifters up
+                shooter.moveLifters(1);
+            } else if(controller.getPOV() == 0){ //lifters down
+                shooter.moveLifters(-1);
+            } else{
+                shooter.moveLifters(0);
+            }
+        } else { //primary input
+            //State changing
+            if (controller.getPOV() == 90) { //Increase state
 
-        //Temp claw control
-        if(controller.getButtonRB()){
-            claw.moveRightClaw(1);
-        } else if(controller.getRightTrigger() > 0){
-            claw.moveRightClaw(-1);
-        } else{
-            claw.moveRightClaw(0);
-        }
-        if(controller.getButtonLB()){
-            claw.moveLeftClaw(1);
-        } else if(controller.getLeftTrigger() > 0){
-            claw.moveLeftClaw(-1);
-        } else {
-            claw.moveLeftClaw(0);
-        }
+            } else if (controller.getPOV() == 270) { //Decrease state
 
-        //Temp lifter control
-        if(controller.getButtonA()){
-        	shooter.moveLifters(-1);
-        } else if(controller.getButtonY()){
-        	shooter.moveLifters(1);
-        } else{
-        	shooter.moveLifters(0);
-        }
+            }
+            //Gear shifting
+            if (controller.getButtonRS()) {
+                shiftLow();
+            } else {
+                shiftHigh();
+            }
+            //Debug switching
+            if (controller.getButtonStart()) {
+                debugMode = !debugMode;
+            }
+            //Shooting
+            if (controller.getButtonRB()) { //shoot high
 
-        //Temp loading
-        if(controller.getPOV() == 270){
-        	roller.load();
-        	shooter.loadBall();
-        } else{
-        	roller.stop();
-        	shooter.turnOffBelts();
-        }
-        
-        //Temp shooting
-        if(controller.getPOV() == 0){
-        	shooter.shootHighState();
-        } else if(controller.getPOV() == 180){
-        	roller.shootAssist();
-        	shooter.shootLowState();
-        	roller.stop();
+            } else if (controller.getRightTrigger() > 0) { //shoot low
+
+            }
+            //Ball loading
+            if (controller.getLeftTrigger() > 0) {
+                roller.load();
+                shooter.loadBall();
+            } else {
+                roller.stop();
+                shooter.stopBelts();
+            }
+            //Finish climb if arms are deployed
+            if (controller.getButtonBack() && climbingArm.isDeployed()) {
+                climbingArm.climbTower();
+            }
+            //Claw control
+            if (controller.getPOV() == 180) { //move claws up
+                claw.moveClaws(1);
+            } else if (controller.getPOV() == 0) { //move claws down
+                claw.moveClaws(-1);
+            } else {
+                claw.moveClaws(0);
+            }
         }
     }
 

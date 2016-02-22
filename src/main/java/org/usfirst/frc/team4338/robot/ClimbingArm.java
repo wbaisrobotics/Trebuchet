@@ -13,6 +13,7 @@ public class ClimbingArm {
     private Solenoid rightArm;
     private Victor winchMotor;
     private Encoder climbDistanceEncoder;
+    private boolean isDeployed;
     private boolean towerClimbed;
 
     /**
@@ -23,6 +24,7 @@ public class ClimbingArm {
         rightArm = new Solenoid(7);
         winchMotor = new Victor(8);
         climbDistanceEncoder = new Encoder(0, 1, false, CounterBase.EncodingType.k4X);
+        isDeployed = false;
         towerClimbed = false;
     }
 
@@ -35,6 +37,7 @@ public class ClimbingArm {
     public void deployArms(){
         leftArm.set(true);
         rightArm.set(true);
+        isDeployed = true;
     }
 
     /**
@@ -46,5 +49,9 @@ public class ClimbingArm {
         leftArm.set(false);
         rightArm.set(false);
         //winch pulls up the robot to right distance based on encoder
+    }
+
+    public boolean isDeployed(){
+        return isDeployed;
     }
 }
