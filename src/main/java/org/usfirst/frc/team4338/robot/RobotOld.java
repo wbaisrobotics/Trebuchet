@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class RobotOld extends IterativeRobot {
+public class RobotOld extends Robot {
     private static final long PERIODIC_DELAY = 5;
 
     private double angle;
@@ -42,7 +42,7 @@ public class RobotOld extends IterativeRobot {
         super();
 
         // Set up vision
-        camera = new Camera(Camera.DEFAULT_VIEW_ANGLE);
+        camera = new Camera(this, Camera.DEFAULT_VIEW_ANGLE);
 
         // Set up controls
         driveJoystick = new Joystick(0);
