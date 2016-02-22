@@ -250,9 +250,9 @@ public class Robot extends IterativeRobot {
         } else { //primary input
             //State changing
             if (controller.getPOV() == 90) { //Increase state
-
+                shooter.increaseState();
             } else if (controller.getPOV() == 270) { //Decrease state
-
+                shooter.decreaseState();
             }
             //Gear shifting
             if (controller.getButtonRS()) {
@@ -262,9 +262,11 @@ public class Robot extends IterativeRobot {
             }
             //Shooting
             if (controller.getButtonRB()) { //shoot high
-
+                shooter.shoot();
             } else if (controller.getRightTrigger() > 0) { //shoot low
-
+                roller.shootAssist();
+                shooter.shoot();
+                roller.stop();
             }
             //Ball loading
             if (controller.getLeftTrigger() > 0) {

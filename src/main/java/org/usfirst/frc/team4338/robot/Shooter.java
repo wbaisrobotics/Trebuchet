@@ -118,32 +118,36 @@ public class Shooter {
     }
 
     /**
+     * Increases the state of the robot
+     */
+    public void increaseState(){
+        switch(state){
+            case SQUAT: changeState(ShooterState.LOAD); break;
+            case LOAD: changeState(ShooterState.TRAVEL); break;
+            case TRAVEL: changeState(ShooterState.HIGHSHOT); break;
+            case HIGHSHOT: break;
+        }
+    }
+
+    /**
+     * Decreases the state of the robot
+     */
+    public void decreaseState(){
+        switch(state){
+            case SQUAT: break;
+            case LOAD: changeState(ShooterState.SQUAT); break;
+            case TRAVEL: changeState(ShooterState.LOAD); break;
+            case HIGHSHOT: changeState(ShooterState.TRAVEL); break;
+        }
+    }
+
+    /**
      * Controls all of the automatic actions that it takes to load a ball into the shooter
      * Pre: Shooter is empty (position of shooter to be determined later)
      * Post: Perform sequence to load a ball so Shooter has a ball, and is in the travel position
      */
     public void loadBall(){
-
-    }
-
-    /**
-     * Moves the shooter to the lowest Squat state to travel under the Low Bar obstacle.
-     * Pre: None
-     * Post: If the shooter is not in the squat state, then make sure the LockingServo is in the
-     * TravelUnlocked state, and move the side motors until they are in the Squat state based on the ShooterGyro.
-     */
-    public void squatState(){
-        changeState(ShooterState.SQUAT);
-    }
-
-    /**
-     *Moves the shooter to the tilted Load state so that a new ball can be loaded into the robot.
-     * Pre: None
-     * Post: If the shooter is not in the Load state, Then check that TravelLocked is false
-     * (if not, unlock the shooter from Travel state), move the shooter to the angled Load state based on the ShooterGyro.
-     */
-    public void loadState(){
-        changeState(ShooterState.LOAD);
+        belts.set(1);
     }
 
     /**
@@ -193,35 +197,17 @@ public class Shooter {
             moveLifters(0);
         }
 
-        //lockForTravel();
+        lockForTravel();
         gyro.reset();
         state = ShooterState.TRAVEL;
     }
 
     /**
-     * Activates the sequence of events that will shoot at one of the low target holes
-     * Pre: Shooter has a ball loaded, and robot is facing a Low target hole
-     * Post: Robot transitions to the LowShot state (unlocking from Travel state if necessary),
-     * creeps to shooting position based on ColorSensor, Spins up the Top & Bottom motors, activates the LaunchingPiston,
-     * recovers the LaunchingPiston to PistonReady, returns the robot to Travel state.
+     * Shoots the ball
+     * Pre: There is a ball in the robot
+     * Post: The ball is launched
      */
-    public void shootLowState(){
-        belts.set(-3);
-        Timer.delay(1);
-        launchingPiston.set(DoubleSolenoid.Value.kForward);
-        Timer.delay(0.5);
-        launchingPiston.set(DoubleSolenoid.Value.kReverse);
-        belts.set(0);
-    }
-
-    /**
-     * Activates the sequence of events that will shoot at one of the high target holes
-     * Pre: Shooter has ball loaded, and robot is facing a High target hole
-     * Post: Robot transitions to the HighShot state (unlocking from TravelPosition if necessary),
-     * creeps to shooting postion based on ColorSensor, Spins up the Top & Bottom motors, activates the LaunchingPiston,
-     * recovers the LaunchingPiston to PistonReady, returns the robot to Travel state.
-     */
-    public void shootHighState(){
+    public void shoot(){
         belts.set(-3);
         Timer.delay(1);
         launchingPiston.set(DoubleSolenoid.Value.kForward);
