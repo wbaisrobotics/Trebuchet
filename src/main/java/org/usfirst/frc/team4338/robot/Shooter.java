@@ -105,9 +105,7 @@ public class Shooter {
 
         //If changing state from squat, change to travel state first to reset the gyro for accuracy
         //If changing state from load to lower state, change to travel state first to reset the gyro for accuracy
-        if(state.getID() == ShooterState.SQUAT.getID()){
-            travelState();
-        } else if(state.getID() == ShooterState.LOAD.getID() && state.getID() > newState.getID()){
+        if(state.getID() == ShooterState.SQUAT.getID() || state.getID() == ShooterState.LOAD.getID()) {
             travelState();
         }
 
