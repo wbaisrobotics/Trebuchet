@@ -283,10 +283,11 @@ public class Robot extends IterativeRobot {
                 shooter.decreaseState();
             }
             //Gear shifting
+            //Default in Low slow gear
             if (controller.getButtonRS()) {
-                shiftLow();
-            } else {
                 shiftHigh();
+            } else {
+                shiftLow();
             }
             //Shooting
             if (controller.getButtonRB()) { //shoot high
