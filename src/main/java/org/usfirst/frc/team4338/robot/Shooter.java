@@ -172,8 +172,8 @@ public class Shooter {
         //gyro position 0
         //When light sensor value peaks above threshold
         if(state.getID() < ShooterState.TRAVEL.getID()){ //Shooter needs to be raised
-            while(!lightAboveThreshold()){ //CHANGE THIS
-                //moveLifters(1 * (Math.abs(getAngle()) <= 25 ? 0.15 : 1)); //Move at 15% speed when close to travel pos
+            //Raise shooter until one of the light sensors reaches the travel state
+            while(!leftLightAboveThreshold() && !rightLightAboveThreshold()){
                 moveLifters(0.15);
 
                 //Check for over rotation
@@ -188,9 +188,41 @@ public class Shooter {
                 }
             }
             moveLifters(0);
+            //If left shooter lifter is off, correct it
+            while(!leftLightAboveThreshold()){
+                moveLeftLifter(0.15);
+
+                //Check for over rotation
+                //Check if a new angle needs to be recorded every 5th of a second
+                if(Timer.getFPGATimestamp() - lastTimeReading >= 0.2){
+                    lastAngleReading = getAngle();
+                }
+                //If angle is increasing and past rough travel state angle something is wrong
+                if(Math.abs(getAngle()) - lastAngleReading > 0 && getAngle() > 0){
+                    broken = true;
+                    break;
+                }
+            }
+            moveLeftLifter(0);
+            //If right shooter lifter is off, correct it
+            while(!rightLightAboveThreshold()){
+                moveRightLifter(0.15);
+
+                //Check for over rotation
+                //Check if a new angle needs to be recorded every 5th of a second
+                if(Timer.getFPGATimestamp() - lastTimeReading >= 0.2){
+                    lastAngleReading = getAngle();
+                }
+                //If angle is increasing and past rough travel state angle something is wrong
+                if(Math.abs(getAngle()) - lastAngleReading > 0 && getAngle() > 0){
+                    broken = true;
+                    break;
+                }
+            }
+            moveRightLifter(0);
         } else if(state.getID() > ShooterState.TRAVEL.getID()){ //Shooter needs to be lowered
-            while(!lightAboveThreshold()){ //CHANGE THIS
-                //moveLifters(-1 * (Math.abs(getAngle()) <= 25 ? 0.15 : 1)); //Move at 15% speed when close to travel pos
+            //Lower shooter until one of the light sensors reaches the travel state
+            while(!leftLightAboveThreshold() && !rightLightAboveThreshold()){
                 moveLifters(-0.15);
 
                 //Check for over rotation
@@ -199,12 +231,44 @@ public class Shooter {
                     lastAngleReading = getAngle();
                 }
                 //If angle is increasing and past rough travel state angle something is wrong
-                if(Math.abs(getAngle()) - lastAngleReading > 0 && getAngle() < 0){
+                if(Math.abs(getAngle()) - lastAngleReading > 0 && getAngle() > 0){
                     broken = true;
                     break;
                 }
             }
             moveLifters(0);
+            //If left shooter lifter is off, correct it
+            while(!leftLightAboveThreshold()){
+                moveLeftLifter(-0.15);
+
+                //Check for over rotation
+                //Check if a new angle needs to be recorded every 5th of a second
+                if(Timer.getFPGATimestamp() - lastTimeReading >= 0.2){
+                    lastAngleReading = getAngle();
+                }
+                //If angle is increasing and past rough travel state angle something is wrong
+                if(Math.abs(getAngle()) - lastAngleReading > 0 && getAngle() > 0){
+                    broken = true;
+                    break;
+                }
+            }
+            moveLeftLifter(0);
+            //If right shooter lifter is off, correct it
+            while(!rightLightAboveThreshold()){
+                moveRightLifter(-0.15);
+
+                //Check for over rotation
+                //Check if a new angle needs to be recorded every 5th of a second
+                if(Timer.getFPGATimestamp() - lastTimeReading >= 0.2){
+                    lastAngleReading = getAngle();
+                }
+                //If angle is increasing and past rough travel state angle something is wrong
+                if(Math.abs(getAngle()) - lastAngleReading > 0 && getAngle() > 0){
+                    broken = true;
+                    break;
+                }
+            }
+            moveRightLifter(0);
         }
 
         if(!broken){
@@ -282,7 +346,7 @@ public class Shooter {
      * Used for individually moving the left lifter motor for lining up with the right lifter motor.
      * @param value speed/direction of the motor
      */
-    public void debugLeftLifter(double value){
+    public void moveLeftLifter(double value){
         leftLifter.set(value);
     }
 
@@ -290,7 +354,7 @@ public class Shooter {
      * Used for individually moving the right lifter motor for lining up with the left lifter motor.
      * @param value speed/direction of the motor
      */
-    public void debugRightLifter(double value){
+    public void moveRightLifter(double value){
         rightLifter.set(value);
     }
 
