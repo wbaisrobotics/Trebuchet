@@ -7,7 +7,8 @@ import edu.wpi.first.wpilibj.*;
  */
 public class Shooter {
     private AnalogGyro gyro;
-    private AnalogInput lightSensor;
+    private AnalogInput leftLightSensor;
+    private AnalogInput rightLightSensor;
     private Victor belts;
     private Victor leftLifter;
     private Victor rightLifter;
@@ -16,7 +17,8 @@ public class Shooter {
     private DoubleSolenoid launchingPiston;
 
     private boolean travelLocked;
-    private final double lightSensorThreshold = 3200;
+    private final double leftLightSensorThreshold = 3200;
+    private final double rightLightSensorThreshold = 3200;
 
     private ShooterState state;
 
@@ -25,7 +27,8 @@ public class Shooter {
      */
     public Shooter(){
         gyro = new AnalogGyro(1);
-        lightSensor = new AnalogInput(2);
+        leftLightSensor = new AnalogInput(2);
+        rightLightSensor = new AnalogInput(3);
         belts = new Victor(2);
         leftLifter = new Victor(3);
         rightLifter = new Victor(4);
@@ -61,7 +64,7 @@ public class Shooter {
             moveLifters(0.5);
         }
         moveLifters(0);
-        while(!lightAboveThreshold()){
+        while(!leftLightAboveThreshold() && !rightLightAboveThreshold()){
             moveLifters(-0.15);
         }
         moveLifters(0);
@@ -72,7 +75,7 @@ public class Shooter {
             moveLifters(-0.5);
         }
         moveLifters(0);
-        while(!lightAboveThreshold()){
+        while(!leftLightAboveThreshold() && !rightLightAboveThreshold()){
             moveLifters(0.15);
         }
         moveLifters(0);
@@ -169,7 +172,7 @@ public class Shooter {
         //gyro position 0
         //When light sensor value peaks above threshold
         if(state.getID() < ShooterState.TRAVEL.getID()){ //Shooter needs to be raised
-            while(!lightAboveThreshold()){
+            while(!lightAboveThreshold()){ //CHANGE THIS
                 //moveLifters(1 * (Math.abs(getAngle()) <= 25 ? 0.15 : 1)); //Move at 15% speed when close to travel pos
                 moveLifters(0.15);
 
@@ -186,7 +189,7 @@ public class Shooter {
             }
             moveLifters(0);
         } else if(state.getID() > ShooterState.TRAVEL.getID()){ //Shooter needs to be lowered
-            while(!lightAboveThreshold()){
+            while(!lightAboveThreshold()){ //CHANGE THIS
                 //moveLifters(-1 * (Math.abs(getAngle()) <= 25 ? 0.15 : 1)); //Move at 15% speed when close to travel pos
                 moveLifters(-0.15);
 
@@ -300,18 +303,34 @@ public class Shooter {
     }
 
     /**
-     * Gets the intensity of light read from the light sensor
+     * Gets the intensity of light read from the left light sensor
      * @return
      */
-    public double getLightSensorValue(){
-        return lightSensor.getValue();
+    public double getLeftLightSensorValue(){
+        return leftLightSensor.getValue();
     }
 
     /**
-     * Gets if the current light sensor value is above the threshold, meaning aligned with the LED
+     * Gets the intensity of light read from the right light sensor
      * @return
      */
-    public boolean lightAboveThreshold(){
-        return getLightSensorValue() >= lightSensorThreshold;
+    public double getRightLightSensorValue(){
+        return rightLightSensor.getValue();
+    }
+
+    /**
+     * Gets if the current left light sensor value is above the left threshold, meaning aligned with the LED
+     * @return
+     */
+    public boolean leftLightAboveThreshold(){
+        return getLeftLightSensorValue() >= leftLightSensorThreshold;
+    }
+
+    /**
+     * Gets if the current right light sensor value is above the right threshold, meaning aligned with the LED
+     * @return
+     */
+    public boolean rightLightAboveThreshold(){
+        return getRightLightSensorValue() >= rightLightSensorThreshold;
     }
 }
