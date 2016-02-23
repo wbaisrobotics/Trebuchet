@@ -181,10 +181,7 @@ public class Robot extends IterativeRobot {
         */
 
         //Gets the current reading of the debug button
-        boolean debugReading = false;
-        if(controller.getButtonStart()){
-            debugReading = true;
-        }
+        boolean debugReading = controller.getButtonStart();
 
         //Check if the last debounce time needs to be reset
         if(debugReading != lastButtonState){
