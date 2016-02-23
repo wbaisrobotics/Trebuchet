@@ -16,7 +16,6 @@ public class Shooter {
     private DoubleSolenoid launchingPiston;
 
     private boolean travelLocked;
-    private boolean pistonReady;
     private final double lightSensorThreshold = 3200;
 
     private ShooterState state;
@@ -35,7 +34,6 @@ public class Shooter {
         launchingPiston = new DoubleSolenoid(4, 5);
 
         travelLocked = true;
-        pistonReady = false;
 
         state = ShooterState.TRAVEL;
     }
@@ -97,19 +95,20 @@ public class Shooter {
      */
     private void changeState(ShooterState newState){
         if(travelLocked){ //Check if locked for travel
+            gyro.reset();
             unlockFromTravel();
         }
 
         if(state.getID() < newState.getID()){ //Shooter needs to be raised
             //Use gyro to move shooter
             while(getAngle() < newState.getAngle()){
-                moveLifters(0.5);
+                moveLifters(0.25);
             }
             moveLifters(0);
         } else if(state.getID() > newState.getID()){ //Shooter needs to be lowered
             //Use gyro to move shooter
             while(getAngle() > newState.getAngle()){
-                moveLifters(-0.5);
+                moveLifters(-0.25);
             }
             moveLifters(0);
         }

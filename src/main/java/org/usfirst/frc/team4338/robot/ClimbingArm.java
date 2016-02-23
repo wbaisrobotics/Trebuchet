@@ -12,7 +12,7 @@ public class ClimbingArm {
     private Solenoid leftArm;
     private Solenoid rightArm;
     private Victor winchMotor;
-    private Encoder climbDistanceEncoder;
+    //private Encoder climbDistanceEncoder;
     private boolean isDeployed;
     private boolean towerClimbed;
 
@@ -23,7 +23,7 @@ public class ClimbingArm {
         leftArm = new Solenoid(6);
         rightArm = new Solenoid(7);
         winchMotor = new Victor(8);
-        climbDistanceEncoder = new Encoder(0, 1, false, CounterBase.EncodingType.k4X);
+        //climbDistanceEncoder = new Encoder(0, 1, false, CounterBase.EncodingType.k4X);
         isDeployed = false;
         towerClimbed = false;
     }
