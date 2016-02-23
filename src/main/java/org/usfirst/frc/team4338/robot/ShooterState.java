@@ -11,7 +11,7 @@ public enum ShooterState {
     private int stateID;
     private double angle;
 
-    ShooterState(int stateID, double angle){
+    private ShooterState(int stateID, double angle){
         this.stateID = stateID;
         this.angle = angle;
     }
