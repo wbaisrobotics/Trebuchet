@@ -90,8 +90,9 @@ public class Shooter {
     /**
      * Changes the state of the robot and moves the shooter accordingly
      * Used for transferring between states that depend on only the gyro.
-     * Do not use this method for transferring to the Travel position as the use of the light sensor is required.
-     * @param newState
+     * Do NOT use this method for transferring to the Travel position as the use of the light sensor is required to
+     * recalibrate the gyro (it drifts)
+     * @param newState state to transfer to
      */
     private void changeState(ShooterState newState){
         if(travelLocked){ //Check if locked for travel
@@ -118,6 +119,8 @@ public class Shooter {
 
     /**
      * Increases the state of the robot
+     * Pre: None
+     * Post: The state of the shooter is increased
      */
     public void increaseState(){
         switch(state){
@@ -130,6 +133,8 @@ public class Shooter {
 
     /**
      * Decreases the state of the robot
+     * Pre: None
+     * Post: The state of the shooter is decreased
      */
     public void decreaseState(){
         switch(state){
@@ -159,6 +164,7 @@ public class Shooter {
     public void travelState(){
         double lastTimeReading = Timer.getFPGATimestamp();
         double lastAngleReading = getAngle();
+        boolean broken = false;
 
         //gyro position 0
         //When light sensor value peaks above threshold
@@ -174,6 +180,7 @@ public class Shooter {
                 }
                 //If angle is increasing and past rough travel state angle something is wrong
                 if(Math.abs(getAngle()) - lastAngleReading > 0 && getAngle() > 0){
+                    broken = true;
                     break;
                 }
             }
@@ -190,15 +197,18 @@ public class Shooter {
                 }
                 //If angle is increasing and past rough travel state angle something is wrong
                 if(Math.abs(getAngle()) - lastAngleReading > 0 && getAngle() < 0){
+                    broken = true;
                     break;
                 }
             }
             moveLifters(0);
         }
 
-        lockForTravel();
-        gyro.reset();
-        state = ShooterState.TRAVEL;
+        if(!broken){
+            lockForTravel();
+            gyro.reset();
+            state = ShooterState.TRAVEL;
+        }
     }
 
     /**
