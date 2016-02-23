@@ -1,6 +1,8 @@
 package org.usfirst.frc.team4338.robot;
 
 import com.ni.vision.NIVision;
+import com.ni.vision.NIVision.Image;
+
 import org.usfirst.frc.team4338.robot.vision.Camera;
 
 import edu.wpi.first.wpilibj.*;
@@ -24,7 +26,7 @@ public class Robot extends IterativeRobot {
 
     //Camera
     private int session;
-    private NIVision.Image frame;
+    private Image frame;
 
     //Robot objects
     private Shooter shooter;
