@@ -169,7 +169,7 @@ public class Shooter {
                 moveLifters(0.15);
 
                 //Check for over rotation
-                //Check if a new angle needs to be recorded
+                //Check if a new angle needs to be recorded every 5th of a second
                 if(Timer.getFPGATimestamp() - lastTimeReading >= 0.2){
                     lastAngleReading = getAngle();
                 }
@@ -185,7 +185,7 @@ public class Shooter {
                 moveLifters(-0.15);
 
                 //Check for over rotation
-                //Check if a new angle needs to be recorded
+                //Check if a new angle needs to be recorded every 5th of a second
                 if(Timer.getFPGATimestamp() - lastTimeReading >= 0.2){
                     lastAngleReading = getAngle();
                 }
