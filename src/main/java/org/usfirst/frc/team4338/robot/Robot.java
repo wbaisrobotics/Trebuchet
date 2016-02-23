@@ -188,6 +188,7 @@ public class Robot extends IterativeRobot {
             pollInput();
         }
 
+        //Print information to smart dashboard
         SmartDashboard.putBoolean("debug", debugMode);
         SmartDashboard.putNumber("robot angle", gyro.getAngle());
         SmartDashboard.putNumber("shooter angle", shooter.getAngle());
@@ -202,6 +203,7 @@ public class Robot extends IterativeRobot {
      * projects the x and y values of the controller onto an x^2 graph to make it exponential.
      */
     private void drive(){
+        //TODO Add gyro driving straight?? (no time....)
         angle = gyro.getAngle();
 
         double x = controller.getRightJoyX();
@@ -222,16 +224,16 @@ public class Robot extends IterativeRobot {
                 climbingArm.deployArms();
             }
             //Individually move claws
-            if(controller.getButtonLB()){
+            if(controller.getButtonLB()){ //Move left claw up
                 claw.moveLeftClaw(1);
-            } else if(controller.getLeftTrigger() > 0){
+            } else if(controller.getLeftTrigger() > 0){ //Move left claw down
                 claw.moveLeftClaw(-1);
             } else{
                 claw.moveLeftClaw(0);
             }
-            if(controller.getButtonRB()){
+            if(controller.getButtonRB()){ //Move right claw up
                 claw.moveRightClaw(1);
-            } else if(controller.getRightTrigger() > 0){
+            } else if(controller.getRightTrigger() > 0){ //Move right claw down
                 claw.moveRightClaw(-1);
             } else{
                 claw.moveRightClaw(0);
@@ -293,16 +295,16 @@ public class Robot extends IterativeRobot {
      */
     public void debug(){
         //Individually control shooter lifter motors
-        if(controller.getButtonLB()){
+        if(controller.getButtonLB()){ //Move left lifter motor up
             shooter.debugLeftLifter(1);
-        } else if(controller.getLeftTrigger() > 0){
+        } else if(controller.getLeftTrigger() > 0){ //Move left lifter motor down
             shooter.debugLeftLifter(-1);
         } else{
             shooter.debugLeftLifter(0);
         }
-        if(controller.getButtonRB()){
+        if(controller.getButtonRB()){ //Move right lifter motor up
             shooter.debugRightLifter(1);
-        } else if(controller.getRightTrigger() > 0){
+        } else if(controller.getRightTrigger() > 0){ //Move right lifter motor down
             shooter.debugRightLifter(-1);
         } else{
             shooter.debugRightLifter(0);
