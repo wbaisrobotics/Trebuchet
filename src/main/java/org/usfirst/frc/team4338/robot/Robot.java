@@ -14,6 +14,10 @@ public class Robot extends IterativeRobot {
 
     private boolean debugMode = false;
     private DigitalInput debugSwitch;
+    private double lastDebounceTime = 0;
+    private double debounceDelay = 0.05;
+    private boolean buttonState = false;
+    private boolean lastButtonState = false;
 
     private Compressor compressor;
     private Camera camera;
@@ -165,8 +169,6 @@ public class Robot extends IterativeRobot {
      */
     @Override
     public void teleopPeriodic() {
-        camera.captureImage();
-
         //Toggle debug mode with switch
         //If the switch doesn't work then have a toggle button (start)
         //^Will need debouncing to make switching non-trivial
@@ -177,9 +179,36 @@ public class Robot extends IterativeRobot {
             debugMode = false;
         }
         */
+
+        //Gets the current reading of the debug button
+        boolean debugReading = false;
         if(controller.getButtonStart()){
-            debugMode = !debugMode;
+            debugReading = true;
         }
+
+        //Check if the last debounce time needs to be reset
+        if(debugReading != lastButtonState){
+            lastDebounceTime = Timer.getFPGATimestamp();
+        }
+
+        //Longer than debounce delay so its the actual state of the button
+        if(Timer.getFPGATimestamp() - lastDebounceTime > debounceDelay){
+            //Change the button state if it has changed
+            if(debugReading != buttonState){
+                buttonState = debugReading;
+
+                //Only toggle the debug state if the new button state is true
+                if(buttonState == true){
+                    debugMode = !debugMode;
+                }
+            }
+        }
+
+        //Save the reading for next loop
+        lastButtonState = debugReading;
+
+        //Capture camera image
+        camera.captureImage();
 
         if(debugMode){
             debug();
@@ -189,7 +218,7 @@ public class Robot extends IterativeRobot {
         }
 
         //Print information to smart dashboard
-        SmartDashboard.putBoolean("debug", debugMode);
+        SmartDashboard.putBoolean("debugMode", debugMode);
         SmartDashboard.putNumber("robot angle", gyro.getAngle());
         SmartDashboard.putNumber("shooter angle", shooter.getAngle());
         SmartDashboard.putNumber("light sensor", shooter.getLightSensorValue());
