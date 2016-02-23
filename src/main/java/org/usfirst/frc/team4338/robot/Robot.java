@@ -230,7 +230,8 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putBoolean("debugMode", debugMode);
         SmartDashboard.putNumber("robot angle", gyro.getAngle());
         SmartDashboard.putNumber("shooter angle", shooter.getAngle());
-        SmartDashboard.putNumber("light sensor", shooter.getLightSensorValue());
+        SmartDashboard.putNumber("left light sensor", shooter.getLeftLightSensorValue());
+        SmartDashboard.putNumber("right light sensor", shooter.getRightLightSensorValue());
 
         Timer.delay((double) PERIODIC_DELAY / 1000);
     }
@@ -335,18 +336,18 @@ public class Robot extends IterativeRobot {
     public void debug(){
         //Individually control shooter lifter motors
         if(controller.getButtonLB()){ //Move left lifter motor up
-            shooter.debugLeftLifter(1);
+            shooter.moveLeftLifter(1);
         } else if(controller.getLeftTrigger() > 0){ //Move left lifter motor down
-            shooter.debugLeftLifter(-1);
+            shooter.moveLeftLifter(-1);
         } else{
-            shooter.debugLeftLifter(0);
+            shooter.moveLeftLifter(0);
         }
         if(controller.getButtonRB()){ //Move right lifter motor up
-            shooter.debugRightLifter(1);
+            shooter.moveRightLifter(1);
         } else if(controller.getRightTrigger() > 0){ //Move right lifter motor down
-            shooter.debugRightLifter(-1);
+            shooter.moveRightLifter(-1);
         } else{
-            shooter.debugRightLifter(0);
+            shooter.moveRightLifter(0);
         }
 
         //calibration??
