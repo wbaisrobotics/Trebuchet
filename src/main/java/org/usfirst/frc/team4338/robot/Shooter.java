@@ -52,9 +52,6 @@ public class Shooter {
      * Post: Shooter is more accurately in the travel position for optimal light spike reading
      */
     public void calibrate(){
-        double upper;
-        double lower;
-
         if(travelLocked){ //Check if servos are locked
             unlockFromTravel();
         }
@@ -68,7 +65,7 @@ public class Shooter {
             moveLifters(-0.15);
         }
         moveLifters(0);
-        upper = getAngle();
+        double upper = getAngle();
 
         //Get lower angle
         while(getAngle() >= -45){
@@ -79,7 +76,7 @@ public class Shooter {
             moveLifters(0.15);
         }
         moveLifters(0);
-        lower = getAngle();
+        double lower = getAngle();
 
         //Go in between of upper and lower angle
         while(getAngle() <= (upper - lower) / 2){
