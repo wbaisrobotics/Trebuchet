@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * Contains the various components of the Robot
  */
 public class Robot extends IterativeRobot {
-    private static final long PERIODIC_DELAY = 5;
+    private static final double PERIODIC_DELAY = 0.005;
 
     private boolean debugMode = false;
     private DigitalInput debugSwitch;
@@ -119,7 +119,7 @@ public class Robot extends IterativeRobot {
             //drive.tankDrive(y - x, y + x);
             drive.tankDrive(velocity - (angle - bearing) * kp, velocity + (angle - bearing) * kp);
 
-            Timer.delay((double) PERIODIC_DELAY / 1000);
+            Timer.delay(PERIODIC_DELAY);
         }
 
         drive.tankDrive(0, 0);
@@ -138,7 +138,7 @@ public class Robot extends IterativeRobot {
             //Change this
             drive.tankDrive(angle * kp, angle * kp);
 
-            Timer.delay((double) PERIODIC_DELAY / 1000);
+            Timer.delay(PERIODIC_DELAY);
         }
 
         drive.tankDrive(0, 0);
@@ -233,7 +233,7 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putNumber("left light sensor", shooter.getLeftLightSensorValue());
         SmartDashboard.putNumber("right light sensor", shooter.getRightLightSensorValue());
 
-        Timer.delay((double) PERIODIC_DELAY / 1000);
+        Timer.delay(PERIODIC_DELAY);
     }
 
     /**
