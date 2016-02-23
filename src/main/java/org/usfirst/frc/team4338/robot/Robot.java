@@ -277,9 +277,9 @@ public class Robot extends IterativeRobot {
                 claw.moveRightClaw(0);
             }
             //Manual lifter control
-            if(controller.getPOV() == 180){ //lifters up
+            if(controller.getPOV() == 0){ //lifters up
                 shooter.moveLifters(1);
-            } else if(controller.getPOV() == 0){ //lifters down
+            } else if(controller.getPOV() == 180){ //lifters down
                 shooter.moveLifters(-1);
             } else{
                 shooter.moveLifters(0);
