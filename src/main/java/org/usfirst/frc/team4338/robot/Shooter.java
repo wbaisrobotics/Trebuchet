@@ -209,7 +209,7 @@ public class Shooter {
      */
     public void shoot(){
         belts.set(-3);
-        Timer.delay(1);
+        Timer.delay(2);
         launchingPiston.set(DoubleSolenoid.Value.kForward);
         Timer.delay(0.5);
         launchingPiston.set(DoubleSolenoid.Value.kReverse);
