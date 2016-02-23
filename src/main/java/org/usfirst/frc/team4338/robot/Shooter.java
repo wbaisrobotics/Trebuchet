@@ -6,6 +6,9 @@ import edu.wpi.first.wpilibj.*;
  * The shooter of the robot
  */
 public class Shooter {
+    public static final double LIGHT_SENSOR_THRESHOLD_LEFT = 3200;
+    public static final double LIGHT_SENSOR_THRESHOLD_RIGHT = 3200;
+    
     private AnalogGyro gyro;
     private AnalogInput leftLightSensor;
     private AnalogInput rightLightSensor;
@@ -17,9 +20,6 @@ public class Shooter {
     private DoubleSolenoid launchingPiston;
 
     private boolean travelLocked;
-    private final double leftLightSensorThreshold = 3200;
-    private final double rightLightSensorThreshold = 3200;
-
     private ShooterState state;
 
     /**
@@ -390,7 +390,7 @@ public class Shooter {
      * @return
      */
     public boolean leftLightAboveThreshold(){
-        return getLeftLightSensorValue() >= leftLightSensorThreshold;
+        return getLeftLightSensorValue() >= LIGHT_SENSOR_THRESHOLD_LEFT;
     }
 
     /**
@@ -398,6 +398,6 @@ public class Shooter {
      * @return
      */
     public boolean rightLightAboveThreshold(){
-        return getRightLightSensorValue() >= rightLightSensorThreshold;
+        return getRightLightSensorValue() >= LIGHT_SENSOR_THRESHOLD_RIGHT;
     }
 }
