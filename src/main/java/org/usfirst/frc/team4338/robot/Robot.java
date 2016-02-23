@@ -202,11 +202,11 @@ public class Robot extends IterativeRobot {
         //Longer than debounce delay so its the actual state of the button
         if(Timer.getFPGATimestamp() - lastDebounceTime > debounceDelay){
             //Change the button state if it has changed
-            if(debugReading != buttonState){
+            if(buttonState != debugReading){
                 buttonState = debugReading;
 
                 //Only toggle the debug state if the new button state is true
-                if(buttonState == true){
+                if(buttonState){
                     debugMode = !debugMode;
                 }
             }
