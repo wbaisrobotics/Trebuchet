@@ -173,9 +173,8 @@ public class Shooter {
                 if(Timer.getFPGATimestamp() - lastTimeReading >= 0.2){
                     lastAngleReading = getAngle();
                 }
-                //If increasing and greater than 20 degrees something is wrong
-                //TODO check if increasing above a certain threshold to remove micro bouncing false positives
-                if(Math.abs(getAngle()) - lastAngleReading > 0 && Math.abs(getAngle()) > 20){
+                //If angle is increasing and past rough travel state angle something is wrong
+                if(Math.abs(getAngle()) - lastAngleReading > 0 && getAngle() > 0){
                     break;
                 }
             }
@@ -190,8 +189,8 @@ public class Shooter {
                 if(Timer.getFPGATimestamp() - lastTimeReading >= 0.2){
                     lastAngleReading = getAngle();
                 }
-                //If increasing and greater than 20 degrees something is wrong
-                if(Math.abs(getAngle()) - lastAngleReading > 0 && Math.abs(getAngle()) > 20){
+                //If angle is increasing and past rough travel state angle something is wrong
+                if(Math.abs(getAngle()) - lastAngleReading > 0 && getAngle() < 0){
                     break;
                 }
             }
