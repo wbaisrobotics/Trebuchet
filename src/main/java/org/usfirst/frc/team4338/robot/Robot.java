@@ -1,5 +1,6 @@
 package org.usfirst.frc.team4338.robot;
 
+import com.ni.vision.NIVision;
 import org.usfirst.frc.team4338.robot.vision.Camera;
 
 import edu.wpi.first.wpilibj.*;
@@ -20,7 +21,10 @@ public class Robot extends IterativeRobot {
     private boolean lastButtonState = false;
 
     private Compressor compressor;
-    private Camera camera;
+
+    //Camera
+    private int session;
+    private NIVision.Image frame;
 
     //Robot objects
     private Shooter shooter;
@@ -50,7 +54,11 @@ public class Robot extends IterativeRobot {
         debugSwitch = new DigitalInput(0);
 
         compressor = new Compressor(0);
-        camera = new Camera(this);
+
+        //Camera
+        frame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
+        session = NIVision.IMAQdxOpenCamera("cam0", NIVision.IMAQdxCameraControlMode.CameraControlModeController);
+        NIVision.IMAQdxConfigureGrab(session);
 
         shooter = new Shooter();
         roller = new Roller();
@@ -161,6 +169,7 @@ public class Robot extends IterativeRobot {
     @Override
     public void teleopInit() {
         gyro.reset();
+        NIVision.IMAQdxStartAcquisition(session);
     }
 
     /**
@@ -205,7 +214,10 @@ public class Robot extends IterativeRobot {
         lastButtonState = debugReading;
 
         //Capture camera image
-        camera.captureImage();
+        NIVision.IMAQdxGrab(session, frame, 1);
+        NIVision.imaqDrawLineOnImage(frame, frame, NIVision.DrawMode.DRAW_VALUE, new NIVision.Point(0, 500), new NIVision.Point(640, 410), 0.0f);
+        NIVision.imaqDrawLineOnImage(frame, frame, NIVision.DrawMode.DRAW_VALUE, new NIVision.Point(295, 0), new NIVision.Point(370, 480), 0.0f);
+        CameraServer.getInstance().setImage(frame);
 
         if(debugMode){
             debug();
