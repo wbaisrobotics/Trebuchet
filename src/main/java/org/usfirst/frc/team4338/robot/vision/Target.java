@@ -11,7 +11,7 @@ import com.ni.vision.NIVision.Range;
 import edu.wpi.first.wpilibj.CameraServer;
 
 public abstract class Target {
-	
+
 	private static final double MIN_SCORE = 75d;
 
 	public abstract Range getHueRange();
@@ -40,6 +40,5 @@ public abstract class Target {
 
 		return visible;
 	}
-
 
 }

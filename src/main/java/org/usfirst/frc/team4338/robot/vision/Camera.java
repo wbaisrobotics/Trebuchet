@@ -20,7 +20,7 @@ public class Camera {
 	private int session;
 	private double viewAngle;
 	private HUD hud;
-	
+
 	public Camera(Robot robot) {
 		this(robot, DEFAULT_VIEW_ANGLE);
 	}
@@ -58,6 +58,10 @@ public class Camera {
 		return frame;
 	}
 
+	public Robot getRobot() {
+		return robot;
+	}
+
 	private void initializeVision() {
 		createImages();
 		IMAQdxCameraControlMode mode = IMAQdxCameraControlMode.CameraControlModeController;
@@ -68,9 +72,5 @@ public class Camera {
 
 	public void setBinaryFrame(Image binaryFrame) {
 		this.binaryFrame = binaryFrame;
-	}
-	
-	public Robot getRobot() {
-		return robot;
 	}
 }
