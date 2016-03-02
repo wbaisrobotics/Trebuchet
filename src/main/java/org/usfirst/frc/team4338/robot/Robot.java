@@ -214,6 +214,11 @@ public class Robot extends IterativeRobot {
 	 */
 	private void pollInput() {
 		if (controller.getButtonA()) { // secondary input
+			//Prevent continuation of regular actions
+			shooter.stopBelts();
+			roller.stop();
+			claw.moveClaws(0);
+
 			// Start climb
 			if (controller.getButtonBack()) {
 				climbingArm.deployArms();
