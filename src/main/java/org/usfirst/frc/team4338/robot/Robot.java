@@ -243,6 +243,11 @@ public class Robot extends IterativeRobot {
 				shooter.moveLifters(0);
 			}
 		} else { // primary input
+			//Prevent continuation of alternate input actions
+			claw.moveLeftClaw(0);
+			claw.moveRightClaw(0);
+			shooter.moveLifters(0);
+
 			// State changing
 			if (controller.getPOV() == 90) { // Increase state
 				shooter.increaseState();
